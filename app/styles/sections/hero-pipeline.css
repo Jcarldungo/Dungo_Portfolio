@@ -13,13 +13,18 @@
 
 .hero-pipeline {
   --pipeline-cycle: 7s;
+  /* The pipeline waits for the headline. Words land 0.10s-0.82s
+     (components/motion/HeroHeadline.tsx), so the sweep starts after.
+     A UNIFORM delay is safe here where per-node delays were not: every
+     animated part shifts by the same amount, so relative phase holds. */
+  --pipeline-start-delay: 0.95s;
   /* Its own container, so the track condenses and stacks off ITS width, not
      the viewport. It lives in .hero-lead (~660px at desktop, full width once
      the hero collapses to one column), so viewport queries would read the
      wrong number entirely. */
   container-type: inline-size;
   margin-top: var(--space-xl);
-  animation: slideUp 0.55s var(--ease-spring) 0.41s both;
+  animation: slideUp 0.55s var(--ease-spring) 0.88s both;
 }
 
 /* ── Flow: rail + track ──────────────────────────────────
@@ -49,6 +54,7 @@
   background: var(--accent);
   box-shadow: 0 0 10px var(--accent-glow), 0 0 3px var(--accent-glow);
   animation : pipeline-sweep-x var(--pipeline-cycle) linear infinite;
+  animation-delay: var(--pipeline-start-delay);
 }
 
 .pipeline-track {
@@ -81,6 +87,7 @@
   animation-duration          : var(--pipeline-cycle);
   animation-timing-function   : linear;
   animation-iteration-count   : infinite;
+  animation-delay          : var(--pipeline-start-delay);
 }
 
 .pipeline-step[data-step="1"] .pipeline-node { animation-name: pipeline-node-1; }
@@ -105,6 +112,7 @@
   animation-duration        : var(--pipeline-cycle);
   animation-timing-function : linear;
   animation-iteration-count : infinite;
+  animation-delay          : var(--pipeline-start-delay);
 }
 
 .pipeline-step[data-step="1"] .pipeline-badge { animation-name: pipeline-badge-1; }
@@ -135,6 +143,7 @@
   animation-duration        : var(--pipeline-cycle);
   animation-timing-function : linear;
   animation-iteration-count : infinite;
+  animation-delay          : var(--pipeline-start-delay);
 }
 
 .pipeline-status-state[data-state="1"] { animation-name: pipeline-status-1; }

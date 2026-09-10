@@ -51,6 +51,24 @@
   margin        : 0 0 var(--space-sm);
 }
 
+/* Each headline word is its own animated box. inline-block because
+   translateY does nothing on a plain inline element. */
+.hero-word {
+  display     : inline-block;
+  margin-right: 0.26em;
+}
+
+/* Reduced motion: beat motion.dev's inline styles to the final state on
+   the very first paint. !important is the one thing that outranks them. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-name,
+  .hero-word,
+  .hero-role {
+    opacity  : 1 !important;
+    transform: none !important;
+  }
+}
+
 .hero-role {
   display       : block;
   font-size     : clamp(1.1rem, 2.1vw, 1.55rem);
@@ -106,14 +124,17 @@
 }
 
 /* ── Entrance: staggered, CSS-only (above the fold, no observer) ─
+   Every delay is offset by --intro-lift so the hero arrives as the
+   intro gate lifts, not while it is still covering the page.
    Neutralised by the global prefers-reduced-motion block. */
-.hero-kicker  { animation: slideUp 0.55s var(--ease-spring) 0.00s both; }
-.hero-name    { animation: slideUp 0.60s var(--ease-spring) 0.06s both; }
-.hero-support { animation: slideUp 0.55s var(--ease-spring) 0.13s both; }
-.hero-desc    { animation: slideUp 0.55s var(--ease-spring) 0.20s both; }
-.hero-cta     { animation: slideUp 0.55s var(--ease-spring) 0.27s both; }
-.hero-stack   { animation: slideUp 0.55s var(--ease-spring) 0.34s both; }
-.hero-media   { animation: slideUp 0.70s var(--ease-out-soft) 0.18s both; }
+.hero-kicker  { animation: slideUp 0.55s var(--ease-spring) calc(0.06s + var(--intro-lift)) both; }
+/* .hero-name is driven by components/motion/HeroHeadline.tsx (word stagger,
+   0.10s-0.82s). No CSS animation here, or the two would fight over transform. */
+.hero-support { animation: slideUp 0.55s var(--ease-spring) calc(0.60s + var(--intro-lift)) both; }
+.hero-desc    { animation: slideUp 0.55s var(--ease-spring) calc(0.68s + var(--intro-lift)) both; }
+.hero-cta     { animation: slideUp 0.55s var(--ease-spring) calc(0.76s + var(--intro-lift)) both; }
+.hero-stack   { animation: slideUp 0.55s var(--ease-spring) calc(0.84s + var(--intro-lift)) both; }
+.hero-media   { animation: slideUp 0.70s var(--ease-out-soft) calc(0.30s + var(--intro-lift)) both; }
 
 /* ── Media: portrait + code card ──────────────────────── */
 .hero-media {

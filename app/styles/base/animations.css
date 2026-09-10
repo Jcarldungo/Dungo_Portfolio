@@ -48,6 +48,17 @@
   to   { transform: translate(40px, 30px) scale(1.08); }
 }
 
+/* Blob entrance. Runs on .blob-wrap, never on .blob itself — the blobs are
+   already driving transform via floatBlob, and two animations on one
+   transform is a fight the later one wins. Scaling the parent leaves the
+   drift untouched. The brightness lift is the tint flash, monochrome per
+   variables.css: it settles to brightness(1), changing nothing at rest. */
+@keyframes blobIntro {
+  0%   { opacity: 0; transform: scale(0.92); filter: brightness(1.85); }
+  45%  { opacity: 1;                         filter: brightness(1.45); }
+  100% { opacity: 1; transform: scale(1);    filter: brightness(1); }
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1;   transform: scale(1); }
   50%      { opacity: 0.6; transform: scale(0.85); }

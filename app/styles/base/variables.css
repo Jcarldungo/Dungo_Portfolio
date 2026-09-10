@@ -86,6 +86,12 @@
   --ease-spring       : cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-soft     : cubic-bezier(0.33, 1, 0.68, 1);
 
+  /* ── Intro gate ──────────────────────────────────────────
+     When the cover screen (styles/components/intro-gate.css) has finished
+     its pipeline run and the page underneath may start arriving. Every
+     hero entrance delay is measured from here. */
+  --intro-lift : 1.42s;
+
   /* ── Z-index scale ───────────────────────────────────── */
   --z-base     : 0;
   --z-sticky   : 100;

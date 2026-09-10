@@ -17,6 +17,8 @@
 @import './styles/components/forms.css';
 @import './styles/components/effects.css';
 
+@import './styles/components/intro-gate.css';
+
 @import './styles/sections/hero.css';
 @import './styles/sections/hero-pipeline.css';
 @import './styles/sections/projects.css';
