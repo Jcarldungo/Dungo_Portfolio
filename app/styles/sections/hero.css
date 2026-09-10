@@ -58,15 +58,26 @@
   margin-right: 0.26em;
 }
 
-/* Reduced motion: beat motion.dev's inline styles to the final state on
-   the very first paint. !important is the one thing that outranks them. */
+/* Word-by-word entrance, 90ms apart, each 0.45s. All measured from
+   --intro-lift so the headline arrives as the intro gate lifts. This is
+   CSS rather than motion on purpose — see components/motion/HeroHeadline.tsx.
+   `both` holds the 0-opacity first frame through the delay, so nothing
+   flashes in before its turn. */
+.hero-word,
+.hero-role {
+  animation: wordUp 0.45s var(--ease-out-soft) both;
+}
+.hero-name [data-word="1"] { animation-delay: calc(var(--intro-lift) + 0.10s); }
+.hero-name [data-word="2"] { animation-delay: calc(var(--intro-lift) + 0.19s); }
+.hero-name [data-word="3"] { animation-delay: calc(var(--intro-lift) + 0.28s); }
+.hero-name [data-word="4"] { animation-delay: calc(var(--intro-lift) + 0.37s); }
+
+/* Reduced motion: no animation at all, which leaves the words at their
+   natural opacity:1. No !important needed now that no inline styles
+   are involved. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-name,
   .hero-word,
-  .hero-role {
-    opacity  : 1 !important;
-    transform: none !important;
-  }
+  .hero-role { animation: none; }
 }
 
 .hero-role {
