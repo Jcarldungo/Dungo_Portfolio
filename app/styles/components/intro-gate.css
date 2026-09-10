@@ -1,0 +1,69 @@
+/* =============================================================================
+   INTRO GATE — the delivery pipeline as a cover screen.
+
+   Runs Idea → Deploy once over the bare background, then lifts to reveal the
+   page. No JS: the markup is server-rendered (components/HeroIntroGate.tsx),
+   so it is already covering on first paint rather than slamming down after
+   hydration.
+
+   TIMELINE (one full page load)
+     0.00s  gate opaque, pipeline sweep starts (--pipeline-start-delay)
+     1.42s  pipeline reaches Deploy, all four badges lit
+     1.42s  hero entrance begins underneath (--intro-lift, see hero.css)
+     1.50s  gate starts lifting
+     1.95s  gate gone, visibility:hidden, no longer hit-testable
+   Change any number here and the matching --intro-lift in variables.css and
+   the delayChildren in components/motion/HeroHeadline.tsx must move with it.
+   ============================================================================= */
+
+.intro-gate {
+  position       : fixed;
+  inset          : 0;
+  z-index        : calc(var(--z-overlay) + 10);
+  display        : grid;
+  place-items    : center;
+  background     : var(--bg);
+  /* `both` holds the opaque first frame even before the delay elapses, so
+     there is no gap between paint and the animation taking over. */
+  animation      : introGateOut 0.45s var(--ease-out-soft) 1.5s both;
+}
+
+.intro-gate-inner {
+  width    : min(760px, 86vw);
+  /* The status line sits under node 1, so the block reads left-aligned even
+     though the gate itself centres it. */
+  text-align: left;
+}
+
+/* The pipeline is the same component as everywhere else; only its tempo and
+   its loop behaviour change inside the gate. */
+.intro-gate .hero-pipeline {
+  /* 7s is the ambient looping tempo. A cover screen has to be over quickly. */
+  --pipeline-cycle      : 2s;
+  --pipeline-start-delay: 0.12s;
+  margin-top            : 0;
+  /* No slideUp here — the gate itself is the entrance. */
+  animation             : none;
+}
+
+/* One pass, then hold on the finished diagram. Without `forwards` the whole
+   thing would snap back to empty the instant the single iteration ended. */
+.intro-gate .pipeline-progress,
+.intro-gate .pipeline-node,
+.intro-gate .pipeline-badge,
+.intro-gate .pipeline-status-state {
+  animation-iteration-count: 1;
+  animation-fill-mode      : forwards;
+}
+
+@keyframes introGateOut {
+  from { opacity: 1; visibility: visible; }
+  to   { opacity: 0; visibility: hidden; }
+}
+
+/* ── Reduced motion ─────────────────────────────────────
+   No cover at all. Someone who has asked for less motion should not be made
+   to sit through a 2s animated door before they can read the page. */
+@media (prefers-reduced-motion: reduce) {
+  .intro-gate { display: none; }
+}

@@ -11,6 +11,9 @@
   pointer-events: none;
   z-index       : 0;
   overflow      : hidden;
+  /* First beat of the hero intro: shapes settle before the headline
+     starts at 0.10s. See components/motion/HeroHeadline.tsx. */
+  animation     : blobIntro 0.65s var(--ease-out-soft) both;
 }
 
 .blob {
@@ -62,6 +65,8 @@
    the user asks for reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   .blob { animation: none; }
+  /* Entrance resolves instantly, at rest. */
+  .blob-wrap { animation: none; opacity: 1; transform: none; filter: none; }
 }
 
 /* ── Social link icons ────────────────────────────────── */

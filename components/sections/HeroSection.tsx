@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { BLUR_DATA_URL } from '@/lib/blur';
-import { HeroPipeline } from '@/components/sections/HeroPipeline';
+import { HeroHeadline } from '@/components/motion/HeroHeadline';
 
 /** The site's signature visual device and identity anchor — preserved in
  *  content and composition from the previous multi-page Home hero. Only
@@ -15,10 +15,7 @@ export function HeroSection() {
               <span className="status-dot" aria-hidden="true"></span>
               Open to internships &amp; freelance work
             </p>
-            <h1 className="hero-name" id="hero-heading">
-              Jann Carl Dungo
-              <span className="hero-role">Full-Stack Developer</span>
-            </h1>
+            <HeroHeadline />
             {/* Non-breaking space before each separator so a wrap never starts
                 a line with a lone "·". */}
             <p className="hero-support">
@@ -40,8 +37,6 @@ export function HeroSection() {
             </div>
 
             <p className="hero-stack">React · Node.js · Laravel · SQL</p>
-
-            <HeroPipeline />
           </div>
 
           <div className="hero-media" aria-hidden="true">
