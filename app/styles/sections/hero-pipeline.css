@@ -1,0 +1,326 @@
+/* =============================================================================
+   HERO PIPELINE — decorative SDLC strip under the hero (idea → code → test →
+   deploy). Pure CSS, one shared clock. See components/sections/HeroPipeline.tsx
+   for the structural rationale.
+
+   PHASE LOCKING: every moving part shares `--pipeline-cycle` and carries NO
+   animation-delay. Per-step timing comes from separate @keyframes with
+   different percentage stops (pipeline-badge-1..4, pipeline-node-1..4,
+   pipeline-status-1..4) so badges accumulate — 1, then 1+2, then 1+2+3, then
+   all four — and clear together at the same stop (98%), which a delay-based
+   waveform cannot express.
+   ============================================================================= */
+
+.hero-pipeline {
+  --pipeline-cycle: 7s;
+  margin-top: var(--space-3xl);
+  animation: slideUp 0.55s var(--ease-spring) 0.41s both;
+}
+
+/* ── Flow: rail + track ──────────────────────────────────
+   --node-size drives the rail inset, the node circle and (via calc) the
+   badge geometry, so every breakpoint only has to redeclare one variable. */
+.pipeline-flow {
+  position  : relative;
+  --node-size: 48px;
+}
+
+.pipeline-rail {
+  position     : absolute;
+  top          : calc(var(--node-size) / 2);
+  left         : calc(var(--node-size) / 2);
+  right        : calc(var(--node-size) / 2);
+  height       : 2px;
+  background   : var(--border);
+  border-radius: var(--radius-pill);
+  overflow     : hidden;
+}
+
+.pipeline-progress {
+  display   : block;
+  height    : 100%;
+  width     : 0%;
+  opacity   : 0;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow), 0 0 3px var(--accent-glow);
+  animation : pipeline-sweep-x var(--pipeline-cycle) linear infinite;
+}
+
+.pipeline-track {
+  display        : flex;
+  justify-content: space-between;
+  position       : relative;
+  list-style     : none;
+  margin         : 0;
+  padding        : 0;
+}
+
+.pipeline-step {
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+  gap           : var(--space-sm);
+}
+
+/* ── Node + badge ─────────────────────────────────────── */
+.pipeline-node {
+  width         : var(--node-size);
+  height        : var(--node-size);
+  border-radius : var(--radius-pill);
+  border        : 1px solid var(--border-2);
+  background    : var(--surface);
+  display       : grid;
+  place-items   : center;
+  position      : relative;
+  color         : var(--text-3);
+  animation-duration          : var(--pipeline-cycle);
+  animation-timing-function   : linear;
+  animation-iteration-count   : infinite;
+}
+
+.pipeline-step[data-step="1"] .pipeline-node { animation-name: pipeline-node-1; }
+.pipeline-step[data-step="2"] .pipeline-node { animation-name: pipeline-node-2; }
+.pipeline-step[data-step="3"] .pipeline-node { animation-name: pipeline-node-3; }
+.pipeline-step[data-step="4"] .pipeline-node { animation-name: pipeline-node-4; }
+
+.pipeline-badge {
+  position     : absolute;
+  top          : calc(var(--node-size) * -0.06);
+  right        : calc(var(--node-size) * -0.06);
+  width        : calc(var(--node-size) * 0.36);
+  height       : calc(var(--node-size) * 0.36);
+  border-radius: 50%;
+  background   : var(--green);
+  color        : var(--bg);
+  border       : 2px solid var(--bg);
+  display      : grid;
+  place-items  : center;
+  opacity      : 0;
+  transform    : scale(0.4);
+  animation-duration        : var(--pipeline-cycle);
+  animation-timing-function : linear;
+  animation-iteration-count : infinite;
+}
+
+.pipeline-step[data-step="1"] .pipeline-badge { animation-name: pipeline-badge-1; }
+.pipeline-step[data-step="2"] .pipeline-badge { animation-name: pipeline-badge-2; }
+.pipeline-step[data-step="3"] .pipeline-badge { animation-name: pipeline-badge-3; }
+.pipeline-step[data-step="4"] .pipeline-badge { animation-name: pipeline-badge-4; }
+
+.pipeline-label {
+  font-family: var(--font-mono);
+  font-size  : var(--fs-200);
+  color      : var(--text-2);
+}
+
+/* ── Status readout: four lines stacked in one grid cell ─
+   so the cross-fade never reserves four rows of height. */
+.pipeline-status {
+  display      : grid;
+  margin-top   : var(--space-lg);
+  text-align   : left;
+  font-family  : var(--font-mono);
+  font-size    : var(--fs-200);
+  color        : var(--text-2);
+}
+
+.pipeline-status-state {
+  grid-area: 1 / 1;
+  opacity  : 0;
+  animation-duration        : var(--pipeline-cycle);
+  animation-timing-function : linear;
+  animation-iteration-count : infinite;
+}
+
+.pipeline-status-state[data-state="1"] { animation-name: pipeline-status-1; }
+.pipeline-status-state[data-state="2"] { animation-name: pipeline-status-2; }
+.pipeline-status-state[data-state="3"] { animation-name: pipeline-status-3; }
+.pipeline-status-state[data-state="4"] { animation-name: pipeline-status-4; }
+
+/* ══════════════════════════════════════════════════════
+   KEYFRAMES — all on the same 7s clock, no delays.
+   Stops: badge 1 @5%, badge 2 @25%, badge 3 @45%, badge 4 @65%,
+   hold to 92%, clear by 98%, reset at 100%.
+   ══════════════════════════════════════════════════════ */
+@keyframes pipeline-sweep-x {
+  0%   { width: 0%;     opacity: 0; }
+  3%   { width: 0%;     opacity: 1; }
+  5%   { width: 0%;     opacity: 1; }
+  25%  { width: 33.33%; opacity: 1; }
+  45%  { width: 66.67%; opacity: 1; }
+  65%  { width: 100%;   opacity: 1; }
+  92%  { width: 100%;   opacity: 1; }
+  98%  { width: 100%;   opacity: 0; }
+  100% { width: 0%;     opacity: 0; }
+}
+
+/* Vertical counterpart used at the ≤640px stacked layout. */
+@keyframes pipeline-sweep-y {
+  0%   { height: 0%;     opacity: 0; }
+  3%   { height: 0%;     opacity: 1; }
+  5%   { height: 0%;     opacity: 1; }
+  25%  { height: 33.33%; opacity: 1; }
+  45%  { height: 66.67%; opacity: 1; }
+  65%  { height: 100%;   opacity: 1; }
+  92%  { height: 100%;   opacity: 1; }
+  98%  { height: 100%;   opacity: 0; }
+  100% { height: 0%;     opacity: 0; }
+}
+
+@keyframes pipeline-badge-1 {
+  0%, 3%   { opacity: 0; transform: scale(0.4); }
+  5%       { opacity: 1; transform: scale(1.25); }
+  7%, 92%  { opacity: 1; transform: scale(1); }
+  98%      { opacity: 0; transform: scale(1); }
+  100%     { opacity: 0; transform: scale(0.4); }
+}
+@keyframes pipeline-badge-2 {
+  0%, 23%  { opacity: 0; transform: scale(0.4); }
+  25%      { opacity: 1; transform: scale(1.25); }
+  27%, 92% { opacity: 1; transform: scale(1); }
+  98%      { opacity: 0; transform: scale(1); }
+  100%     { opacity: 0; transform: scale(0.4); }
+}
+@keyframes pipeline-badge-3 {
+  0%, 43%  { opacity: 0; transform: scale(0.4); }
+  45%      { opacity: 1; transform: scale(1.25); }
+  47%, 92% { opacity: 1; transform: scale(1); }
+  98%      { opacity: 0; transform: scale(1); }
+  100%     { opacity: 0; transform: scale(0.4); }
+}
+@keyframes pipeline-badge-4 {
+  0%, 63%  { opacity: 0; transform: scale(0.4); }
+  65%      { opacity: 1; transform: scale(1.25); }
+  67%, 92% { opacity: 1; transform: scale(1); }
+  98%      { opacity: 0; transform: scale(1); }
+  100%     { opacity: 0; transform: scale(0.4); }
+}
+
+@keyframes pipeline-node-1 {
+  0%, 3%    { color: var(--text-3); border-color: var(--border-2); }
+  5%, 92%   { color: var(--accent); border-color: var(--accent); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+}
+@keyframes pipeline-node-2 {
+  0%, 23%   { color: var(--text-3); border-color: var(--border-2); }
+  25%, 92%  { color: var(--accent); border-color: var(--accent); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+}
+@keyframes pipeline-node-3 {
+  0%, 43%   { color: var(--text-3); border-color: var(--border-2); }
+  45%, 92%  { color: var(--accent); border-color: var(--accent); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+}
+@keyframes pipeline-node-4 {
+  0%, 63%   { color: var(--text-3); border-color: var(--border-2); }
+  65%, 92%  { color: var(--accent); border-color: var(--accent); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+}
+
+@keyframes pipeline-status-1 {
+  0%   { opacity: 0; }
+  4%   { opacity: 1; }
+  20%  { opacity: 1; }
+  22%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes pipeline-status-2 {
+  0%   { opacity: 0; }
+  23%  { opacity: 0; }
+  25%  { opacity: 1; }
+  42%  { opacity: 1; }
+  44%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes pipeline-status-3 {
+  0%   { opacity: 0; }
+  43%  { opacity: 0; }
+  45%  { opacity: 1; }
+  62%  { opacity: 1; }
+  64%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes pipeline-status-4 {
+  0%   { opacity: 0; }
+  63%  { opacity: 0; }
+  65%  { opacity: 1; }
+  96%  { opacity: 1; }
+  98%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ── Responsive ───────────────────────────────────────────
+   Widths are tuned to this component's own content (4 labelled nodes),
+   not the site's --bp-* breakpoint set in app/styles/base/breakpoints.css —
+   the track needs to condense, then stack, well before the shared layout
+   breakpoints kick in. */
+@media (max-width: 900px) {
+  .pipeline-flow { --node-size: 40px; }
+  .pipeline-label { font-size: var(--fs-100); }
+  .pipeline-step { gap: var(--space-xs); }
+}
+
+@media (max-width: 640px) {
+  .pipeline-track {
+    flex-direction: column;
+    align-items   : flex-start;
+    gap           : var(--space-lg);
+  }
+
+  .pipeline-step {
+    flex-direction: row;
+    align-items   : center;
+    gap           : var(--space-md);
+  }
+
+  .pipeline-rail {
+    top   : calc(var(--node-size) / 2);
+    bottom: calc(var(--node-size) / 2);
+    left  : calc(var(--node-size) / 2);
+    right : auto;
+    width : 2px;
+    height: auto;
+  }
+
+  .pipeline-progress {
+    width    : 100%;
+    height   : 0%;
+    animation-name: pipeline-sweep-y;
+  }
+
+  .pipeline-status { margin-top: var(--space-xl); }
+}
+
+/* ── Reduced motion ─────────────────────────────────────
+   Opt-out must land on the FINISHED diagram, not a blank or mid-sweep
+   one: full progress, every badge popped, every node lit, "Deployed"
+   showing. Mirrors the pattern in hero.css (portrait ring) and the
+   global list in styles/layout/responsive.css. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-pipeline { animation: none; }
+
+  .pipeline-progress {
+    animation: none;
+    width    : 100%;
+    height   : 100%;
+    opacity  : 1;
+  }
+
+  .pipeline-node {
+    animation   : none;
+    color       : var(--accent);
+    border-color: var(--accent);
+  }
+
+  .pipeline-badge {
+    animation: none;
+    opacity  : 1;
+    transform: scale(1);
+  }
+
+  .pipeline-status-state {
+    animation: none;
+    opacity  : 0;
+  }
+  .pipeline-status-state[data-state="4"] { opacity: 1; }
+}
