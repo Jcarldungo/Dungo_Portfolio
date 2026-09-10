@@ -92,6 +92,13 @@
   --z-navbar   : 1000;
   --z-mobile   : 999;
   --z-overlay  : 1100;
+
+  /* ── Side nav ────────────────────────────────────────────
+     Plain CSS can't read a variable set on .side-nav from a body:has()
+     rule, so the collapsed rail width and the small-screen bar height live
+     here as the shared source. Keep in step with app/styles/layout/sidenav.css. */
+  --sn-inset : 68px;
+  --sn-bar-h : 56px;
 }
 
 /* ── DARK THEME (default) ─────────────────────────────── */

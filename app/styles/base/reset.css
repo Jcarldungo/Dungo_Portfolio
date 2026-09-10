@@ -14,7 +14,9 @@
 
 html {
   scroll-behavior     : smooth;
-  scroll-padding-top   : 88px; /* fixed-header offset for #main-content + any in-page anchor */
+  /* No fixed top chrome any more (nav is a left rail / bottom bar), so an
+     anchor only needs a little breathing room above it. */
+  scroll-padding-top   : var(--space-lg);
   font-size            : 16px;
   text-size-adjust     : 100%;
   -webkit-text-size-adjust: 100%;

@@ -9,7 +9,7 @@
 @import './styles/base/animations.css';
 
 @import './styles/layout/grid.css';
-@import './styles/layout/navbar.css';
+@import './styles/layout/sidenav.css';
 @import './styles/layout/footer.css';
 @import './styles/layout/responsive.css';
 

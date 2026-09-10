@@ -6,17 +6,8 @@
    and give a single place to audit responsive behavior at a macro level.
    ============================================================================= */
 
-/* ── Mobile (≤ 768px) ─────────────────────────────────── */
-@media (max-width: 768px) {
-  /* Desktop nav links and the inline CTA collapse into the hamburger menu.
-     The theme toggle stays in the header beside the hamburger: buried in the
-     menu it cost two taps and a full-screen overlay to change one setting,
-     and you couldn't see the result until you closed the menu again. */
-  .nav-links        { display: none; }
-  .nav-actions .btn { display: none; }
-  .hamburger        { display: flex; }
-  .mobile-menu      { display: flex; }
-}
+/* The primary navigation is a left rail that becomes a bottom bar at
+   ≤1024px — see app/styles/layout/sidenav.css for its responsive behaviour. */
 
 /* ── Small mobile (≤ 430px) ───────────────────────────── */
 @media (max-width: 430px) {
@@ -63,9 +54,14 @@
   .btn:hover,
   .submit-btn:hover:not(:disabled),
   .social-link:hover,
-  .work-card:hover {
+  .work-card:hover,
+  .side-nav-theme:hover {
     transform: none;
   }
+
+  /* The rail still opens for the labels, just without the eased width. */
+  .side-nav,
+  .side-nav-label { transition: none; }
 
   /* Colour/opacity feedback survives, just quicker. */
   *,

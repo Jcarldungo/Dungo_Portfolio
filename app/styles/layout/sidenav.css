@@ -1,0 +1,322 @@
+/* ============================================================
+   SIDE NAV — "The Index"
+
+   A persistent left rail on desktop, a bottom bar on small screens. It reads
+   as a file's line-number gutter to match the site's `// comment` section
+   labels and the jann.js card: a numbered list of sections with a spine that
+   fills with scroll progress (this replaces the old top progress bar).
+
+   Collapsed it is just numbers + spine; hover or keyboard focus opens it to
+   reveal the section labels. Scroll progress is written to --sn-p by
+   components/SideNav.tsx and consumed here as a transform.
+
+   The body reserves --sn-inset on the left for the collapsed rail
+   (app/styles/base/variables.css); the expanded panel overlays rather than
+   pushing content, so opening it never reflows the page.
+   ============================================================ */
+
+/* Reserve the collapsed rail's column so content never sits under it. Scoped
+   with :has() so /work/[slug] (which renders its own top bar, no side nav) is
+   untouched. Fixed layers (blobs, particle canvas, the rail itself) ignore
+   this padding. */
+body:has(.side-nav) {
+  padding-left: var(--sn-inset);
+}
+@media (max-width: 1024px) {
+  body:has(.side-nav) {
+    padding-left  : 0;
+    padding-bottom: calc(var(--sn-bar-h) + env(safe-area-inset-bottom));
+  }
+}
+
+.side-nav {
+  --sn-w      : 68px;          /* collapsed rail width — matches --sn-inset */
+  --sn-w-open : 210px;
+  --sn-spine-x: 22px;          /* node + spine centre from the rail's left */
+  --sn-node   : 7px;
+  --sn-row-h  : 44px;
+  --sn-p      : 0;             /* scroll ratio, set by JS */
+
+  position      : fixed;
+  inset         : 0 auto 0 0;
+  width         : var(--sn-w);
+  z-index       : var(--z-navbar);
+  display       : flex;
+  flex-direction: column;
+  padding-block : clamp(24px, 3.4vh, 36px);
+  background    : transparent;
+  border-right  : 1px solid transparent;
+  transition    : width 0.42s var(--ease-spring),
+                  background var(--transition-base),
+                  border-color var(--transition-base);
+}
+
+.side-nav:hover,
+.side-nav:focus-within {
+  width                  : var(--sn-w-open);
+  background             : var(--bg-glass);
+  border-right-color     : var(--border);
+  backdrop-filter        : blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+/* ── Wordmark ─────────────────────────────────────────────
+   Same typographic mark as the /work top bar. currentColor, so it themes
+   for free. Lights up while the reader is in the hero. */
+.side-nav-home {
+  flex-shrink : 0;
+  display     : flex;
+  align-items : center;
+  height      : 44px;
+  padding-left: calc(var(--sn-spine-x) - 2px);
+  color       : var(--text-3);
+  transition  : color var(--transition-fast);
+}
+.side-nav-home:hover,
+.side-nav-home[data-active] { color: var(--text); }
+
+.side-nav-mark {
+  font-family   : var(--font-display);
+  font-weight   : 800;
+  font-size     : 1.15rem;
+  line-height   : 1;
+  letter-spacing: -0.055em;
+}
+
+/* ── Index ──────────────────────────────────────────────── */
+.side-nav-index {
+  flex          : 1;
+  display       : flex;
+  align-items   : center;   /* vertically centre the numbered block */
+  min-height    : 0;
+}
+
+.side-nav-list {
+  position: relative;
+  width   : 100%;
+}
+
+/* Spine: a hairline through the node column; the fill is scroll progress. */
+.side-nav-spine {
+  position     : absolute;
+  left         : var(--sn-spine-x);
+  top          : calc(var(--sn-row-h) / 2);
+  bottom       : calc(var(--sn-row-h) / 2);
+  width        : 2px;
+  transform    : translateX(-1px);
+  background   : var(--border);
+  border-radius: 2px;
+  overflow     : hidden;
+}
+.side-nav-spine-fill {
+  position        : absolute;
+  inset           : 0;
+  background      : var(--accent);
+  transform-origin: top;
+  transform       : scaleY(var(--sn-p));
+  transition      : transform 0.12s linear;
+}
+
+.side-nav-rows {
+  display       : flex;
+  flex-direction: column;
+  list-style    : none;
+  margin        : 0;
+  padding       : 0;
+}
+
+.side-nav-item {
+  position    : relative;
+  display     : flex;
+  align-items : center;
+  gap         : 12px;
+  height      : var(--sn-row-h);
+  padding-left: 38px;
+  color       : var(--text-3);
+  transition  : color var(--transition-fast);
+}
+.side-nav-item:hover { color: var(--text-2); }
+.side-nav-item[data-active] { color: var(--text); }
+
+/* The node sits on the spine. Idle: a hollow ring that masks the spine
+   behind it. Active: filled, with a faint monochrome glow. */
+.side-nav-node {
+  position     : absolute;
+  left         : var(--sn-spine-x);
+  top          : 50%;
+  width        : var(--sn-node);
+  height       : var(--sn-node);
+  transform    : translate(-50%, -50%);
+  border-radius: 50%;
+  background   : var(--bg);
+  box-shadow   : 0 0 0 1px var(--border-2);
+  transition   : background var(--transition-fast),
+                 box-shadow var(--transition-fast),
+                 transform var(--transition-base);
+}
+.side-nav-item:hover .side-nav-node { box-shadow: 0 0 0 1px var(--text-3); }
+.side-nav-item[data-active] .side-nav-node {
+  background : var(--accent);
+  box-shadow : 0 0 0 1px var(--accent), 0 0 12px -1px var(--accent-glow);
+  transform  : translate(-50%, -50%) scale(1.18);
+}
+
+/* "You are here" — a short accent tick pointing off the active node, visible
+   even while the rail is collapsed. */
+.side-nav-item::before {
+  content   : '';
+  position  : absolute;
+  left      : var(--sn-spine-x);
+  top       : 50%;
+  height    : 2px;
+  width     : 0;
+  transform : translateY(-50%);
+  background : var(--accent);
+  border-radius: 2px;
+  transition: width var(--transition-base);
+}
+.side-nav-item[data-active]::before { width: 13px; }
+
+.side-nav-num {
+  font-family   : var(--font-mono);
+  font-size     : var(--fs-100);
+  font-weight   : 500;
+  letter-spacing: 0.02em;
+}
+
+.side-nav-label {
+  max-width     : 0;
+  overflow      : hidden;
+  opacity       : 0;
+  transform     : translateX(-6px);
+  white-space   : nowrap;
+  font-family   : var(--font-body);
+  font-size     : 0.9rem;
+  font-weight   : 500;
+  letter-spacing: 0.01em;
+  transition    : max-width 0.42s var(--ease-spring),
+                  opacity 0.22s var(--ease-out-soft),
+                  transform 0.22s var(--ease-out-soft);
+}
+.side-nav:hover .side-nav-label,
+.side-nav:focus-within .side-nav-label {
+  max-width: 170px;
+  opacity  : 1;
+  transform: none;
+}
+
+/* Label reveal is lightly staggered on the way in only. */
+.side-nav:hover .side-nav-rows li:nth-child(1) .side-nav-label,
+.side-nav:focus-within .side-nav-rows li:nth-child(1) .side-nav-label { transition-delay: 0s, 0.02s, 0.02s; }
+.side-nav:hover .side-nav-rows li:nth-child(2) .side-nav-label,
+.side-nav:focus-within .side-nav-rows li:nth-child(2) .side-nav-label { transition-delay: 0s, 0.05s, 0.05s; }
+.side-nav:hover .side-nav-rows li:nth-child(3) .side-nav-label,
+.side-nav:focus-within .side-nav-rows li:nth-child(3) .side-nav-label { transition-delay: 0s, 0.08s, 0.08s; }
+.side-nav:hover .side-nav-rows li:nth-child(4) .side-nav-label,
+.side-nav:focus-within .side-nav-rows li:nth-child(4) .side-nav-label { transition-delay: 0s, 0.11s, 0.11s; }
+.side-nav:hover .side-nav-rows li:nth-child(5) .side-nav-label,
+.side-nav:focus-within .side-nav-rows li:nth-child(5) .side-nav-label { transition-delay: 0s, 0.14s, 0.14s; }
+
+/* ── Foot: theme toggle ─────────────────────────────────── */
+.side-nav-foot {
+  flex-shrink : 0;
+  display     : flex;
+  align-items : center;
+  padding-left: calc(var(--sn-spine-x) - 19px);
+}
+.side-nav-theme {
+  width          : 38px;
+  height         : 38px;
+  display        : grid;
+  place-items    : center;
+  border         : 1px solid var(--border-2);
+  border-radius  : 50%;
+  background     : transparent;
+  color          : var(--text-3);
+  transition     : color var(--transition-fast),
+                   border-color var(--transition-base),
+                   transform var(--transition-base);
+}
+.side-nav-theme:hover {
+  color       : var(--text);
+  border-color: var(--accent);
+  transform   : rotate(18deg);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SMALL SCREENS — the rail becomes a bottom bar. Same vocabulary
+   (numbers, spine, active node), turned on its side.
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .side-nav {
+    inset                  : auto 0 0 0;
+    width                  : auto;
+    height                 : var(--sn-bar-h);
+    display                : grid;
+    grid-template-columns  : auto minmax(0, 1fr) auto;
+    align-items            : center;
+    padding                : 0 6px env(safe-area-inset-bottom);
+    background             : var(--bg-glass);
+    border-right           : none;
+    border-top             : 1px solid var(--border);
+    backdrop-filter        : blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    transition             : none;
+  }
+  .side-nav:hover,
+  .side-nav:focus-within { width: auto; }
+
+  /* Progress track along the top edge of the whole bar. */
+  .side-nav::after {
+    content         : '';
+    position        : absolute;
+    inset           : 0 0 auto 0;
+    height          : 2px;
+    background      : var(--accent);
+    transform-origin: left;
+    transform       : scaleX(var(--sn-p));
+    transition      : transform 0.12s linear;
+  }
+  .side-nav-spine { display: none; }
+
+  .side-nav-home {
+    height      : auto;
+    padding     : 6px 8px 6px 4px;
+  }
+  .side-nav-mark { font-size: 0.95rem; }
+
+  .side-nav-index {
+    min-width   : 0;
+    display     : block;
+  }
+  .side-nav-list {
+    width       : 100%;
+    height      : 100%;
+  }
+  .side-nav-rows {
+    flex-direction : row;
+    height         : 100%;
+    align-items    : center;
+  }
+  .side-nav-rows li { flex: 1 1 0; min-width: 0; display: flex; height: 100%; }
+
+  .side-nav-item {
+    flex           : 1;
+    flex-direction : column;
+    justify-content: center;
+    gap            : 4px;
+    height         : 100%;
+    min-width      : 0;
+    padding        : 0;
+  }
+  .side-nav-item::before { display: none; }
+  .side-nav-node {
+    position : static;
+    transform: none;
+  }
+  .side-nav-item[data-active] .side-nav-node { transform: scale(1.18); }
+  .side-nav-label { display: none; }   /* numbers wayfind; label stays for AT via aria */
+
+  .side-nav-foot { padding: 0 2px 0 6px; }
+  .side-nav-theme { width: 36px; height: 36px; }
+}
