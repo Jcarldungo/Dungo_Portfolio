@@ -1,48 +1,67 @@
 /* =============================================================================
-   INTRO GATE — the delivery pipeline as a cover screen.
+   INTRO GATE — pipeline, then a line of intent, then the page.
 
-   Runs Idea → Deploy once over the bare background, then lifts to reveal the
-   page. No JS: the markup is server-rendered (components/HeroIntroGate.tsx),
-   so it is already covering on first paint rather than slamming down after
-   hydration.
+   Two stages cross-fading inside a cover screen. The stage swap is
+   AnimatePresence (components/IntroStages.tsx); the cover's own fade-out is
+   CSS, deliberately. An overlay that fails to lift hides the whole site, so
+   the reveal must not depend on JS running. This does not.
 
    TIMELINE (one full page load)
-     0.00s  gate opaque, pipeline sweep starts (--pipeline-start-delay)
-     1.42s  pipeline reaches Deploy, all four badges lit
-     1.42s  hero entrance begins underneath (--intro-lift, see hero.css)
-     1.50s  gate starts lifting
-     1.95s  gate gone, visibility:hidden, no longer hit-testable
-   Change any number here and the matching --intro-lift in variables.css and
-   the delayChildren in components/motion/HeroHeadline.tsx must move with it.
+     0.00s  cover opaque, pipeline sweeps Idea → Deploy
+     1.42s  cross-fade: pipeline out, quote in
+     3.00s  cover starts lifting; hero entrance begins (--intro-lift)
+     3.50s  cover gone, visibility:hidden, not hit-testable
+     3.55s  IntroStages unmounts it — after the fade, never during
+   Change these and --intro-lift (variables.css) plus QUOTE_AT_MS/DONE_AT_MS
+   (IntroStages.tsx) must move with them.
    ============================================================================= */
 
 .intro-gate {
-  position       : fixed;
-  inset          : 0;
-  z-index        : calc(var(--z-overlay) + 10);
-  display        : grid;
-  place-items    : center;
-  background     : var(--bg);
-  /* `both` holds the opaque first frame even before the delay elapses, so
-     there is no gap between paint and the animation taking over. */
-  animation      : introGateOut 0.45s var(--ease-out-soft) 1.5s both;
+  position   : fixed;
+  inset      : 0;
+  z-index    : calc(var(--z-overlay) + 10);
+  display    : grid;
+  place-items: center;
+  background : var(--bg);
+  /* `both` holds the opaque first frame through the delay, so there is no gap
+     between first paint and the animation taking over. */
+  animation  : introGateOut 0.5s var(--ease-out-soft) 3s both;
 }
 
+/* Both stages share one grid cell so their fades overlap into a real
+   cross-fade instead of one finishing before the next begins. */
 .intro-gate-inner {
-  width    : min(760px, 86vw);
-  /* The status line sits under node 1, so the block reads left-aligned even
-     though the gate itself centres it. */
-  text-align: left;
+  display: grid;
+  width  : min(760px, 86vw);
 }
 
-/* The pipeline is the same component as everywhere else; only its tempo and
-   its loop behaviour change inside the gate. */
+.intro-stage {
+  grid-area: 1 / 1;
+  /* Centre each stage in the shared cell without stretching the pipeline. */
+  align-self: center;
+}
+
+.intro-quote {
+  margin     : 0;
+  text-align : center;
+  font-family: var(--font-display);
+  font-size  : clamp(1.35rem, 3.2vw, 2.15rem);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: -0.02em;
+  color      : var(--text);
+  text-wrap  : balance;
+}
+
+/* The pipeline keeps its own left alignment — the status line sits under the
+   first node, so centring it would detach the two. */
 .intro-gate .hero-pipeline {
   /* 7s is the ambient looping tempo. A cover screen has to be over quickly. */
   --pipeline-cycle      : 2s;
   --pipeline-start-delay: 0.12s;
   margin-top            : 0;
-  /* No slideUp here — the gate itself is the entrance. */
+  text-align            : left;
+  /* No slideUp here — the cover itself is the entrance. */
   animation             : none;
 }
 
@@ -62,8 +81,10 @@
 }
 
 /* ── Reduced motion ─────────────────────────────────────
-   No cover at all. Someone who has asked for less motion should not be made
-   to sit through a 2s animated door before they can read the page. */
+   No cover at all. Someone who asked for less motion should not be made to sit
+   through a 3.5s animated door before they can read the page. IntroStages also
+   returns null for them; this rule covers the first paint, before it hydrates.
+   ───────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .intro-gate { display: none; }
 }

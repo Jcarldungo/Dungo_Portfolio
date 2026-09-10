@@ -1,28 +1,26 @@
 import { HeroPipeline } from '@/components/sections/HeroPipeline';
+import { IntroStages } from '@/components/IntroStages';
 
-/** The delivery pipeline as a cover screen: it runs Idea → Deploy once, then
- *  lifts to reveal the portfolio.
+/** The intro sequence: the delivery pipeline runs, cross-fades to a one-line
+ *  statement of intent, then the whole cover lifts to reveal the homepage.
  *
- *  Deliberately a server component with no JS at all. A client-side gate would
- *  mount only after hydration, so the page would flash into view first and the
- *  cover would slam down on top of it — the exact thing a gate exists to
- *  prevent. Rendered in the server HTML it is already covering on first paint.
+ *  Server component. The stage machine inside is a client component, but
+ *  HeroPipeline is passed to it as children so the pipeline itself stays
+ *  server-rendered and is painted before any JS arrives.
  *
- *  It never unmounts; the CSS ends on `visibility: hidden`, which also takes
- *  it out of the accessibility tree and stops it swallowing clicks. That means
- *  it plays once per full page load and does not replay on client-side
- *  navigation back to the homepage — the element is still in the DOM with its
- *  animation finished.
+ *  The cover's fade-out is CSS (intro-gate.css), not motion, on purpose: an
+ *  overlay that fails to lift hides the entire site, which is a far worse
+ *  failure than a missed animation. CSS cannot fail that way, so the reveal is
+ *  guaranteed even if JS never runs — in which case the visitor simply sees
+ *  the pipeline and then the page, with no quote. AnimatePresence handles only
+ *  the cross-fade between stages, where failing degrades gracefully.
  *
- *  Timing lives in app/styles/components/intro-gate.css and is shared with the
- *  hero entrance via --intro-lift. Change one, change the others.
+ *  Timing lives in intro-gate.css and --intro-lift (variables.css).
  */
 export function HeroIntroGate() {
   return (
-    <div className="intro-gate" aria-hidden="true">
-      <div className="intro-gate-inner">
-        <HeroPipeline />
-      </div>
-    </div>
+    <IntroStages>
+      <HeroPipeline />
+    </IntroStages>
   );
 }

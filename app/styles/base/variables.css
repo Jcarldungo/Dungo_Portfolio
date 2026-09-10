@@ -90,7 +90,7 @@
      When the cover screen (styles/components/intro-gate.css) has finished
      its pipeline run and the page underneath may start arriving. Every
      hero entrance delay is measured from here. */
-  --intro-lift : 1.42s;
+  --intro-lift : 3s;
 
   /* ── Z-index scale ───────────────────────────────────── */
   --z-base     : 0;
