@@ -40,6 +40,8 @@ export function HeroSection() {
             </div>
 
             <p className="hero-stack">React · Node.js · Laravel · SQL</p>
+
+            <HeroPipeline />
           </div>
 
           <div className="hero-media" aria-hidden="true">
@@ -78,8 +80,6 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-
-        <HeroPipeline />
       </div>
     </section>
   );

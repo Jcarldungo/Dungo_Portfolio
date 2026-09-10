@@ -13,7 +13,12 @@
 
 .hero-pipeline {
   --pipeline-cycle: 7s;
-  margin-top: var(--space-3xl);
+  /* Its own container, so the track condenses and stacks off ITS width, not
+     the viewport. It lives in .hero-lead (~660px at desktop, full width once
+     the hero collapses to one column), so viewport queries would read the
+     wrong number entirely. */
+  container-type: inline-size;
+  margin-top: var(--space-xl);
   animation: slideUp 0.55s var(--ease-spring) 0.41s both;
 }
 
@@ -250,17 +255,17 @@
 }
 
 /* ── Responsive ───────────────────────────────────────────
-   Widths are tuned to this component's own content (4 labelled nodes),
-   not the site's --bp-* breakpoint set in app/styles/base/breakpoints.css —
-   the track needs to condense, then stack, well before the shared layout
-   breakpoints kick in. */
-@media (max-width: 900px) {
+   Container queries, not viewport ones: the pipeline sits in the hero lead
+   column, so what matters is how much room IT has, not how wide the screen
+   is. Widths are tuned to this component's own content (4 labelled nodes)
+   rather than the site's --bp-* set in app/styles/base/breakpoints.css. */
+@container (max-width: 720px) {
   .pipeline-flow { --node-size: 40px; }
   .pipeline-label { font-size: var(--fs-100); }
   .pipeline-step { gap: var(--space-xs); }
 }
 
-@media (max-width: 640px) {
+@container (max-width: 520px) {
   .pipeline-track {
     flex-direction: column;
     align-items   : flex-start;
