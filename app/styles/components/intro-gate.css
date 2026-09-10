@@ -1,19 +1,23 @@
 /* =============================================================================
-   INTRO GATE — the delivery pipeline as a cover screen.
+   INTRO GATE — the page-load cover: delivery pipeline, then a line of intent,
+   then the page.
 
-   Runs Idea → Deploy once over the bare background, then lifts to reveal the
-   page. No JS: the markup is server-rendered (components/HeroIntroGate.tsx),
-   so it is already covering on first paint rather than slamming down after
-   hydration.
+   Runs over the bare background, then lifts to reveal the site. No JS: the
+   markup is server-rendered (components/HeroIntroGate.tsx), so it is already
+   covering on first paint rather than slamming down after hydration. Both
+   stages sit stacked in one grid cell and cross-fade on the shared page-load
+   clock — no state machine (a `motion`-based version was reverted).
 
-   TIMELINE (one full page load)
-     0.00s  gate opaque, pipeline sweep starts (--pipeline-start-delay)
-     1.42s  pipeline reaches Deploy, all four badges lit
-     1.42s  hero entrance begins underneath (--intro-lift, see hero.css)
-     1.50s  gate starts lifting
-     1.95s  gate gone, visibility:hidden, no longer hit-testable
-   Change any number here and the matching --intro-lift in variables.css and
-   the delayChildren in components/motion/HeroHeadline.tsx must move with it.
+   TIMELINE (one full page load, all delays measured from first paint)
+     0.00s  gate opaque; pipeline sweeps Idea -> Deploy (--pipeline-cycle 2.2s)
+     1.53s  pipeline all lit, holding
+     1.60s  pipeline stage fades out (done 1.90s)
+     1.85s  line of intent fades + rises in (done 2.30s), then holds ~0.9s
+     3.20s  gate lifts (introGateOut)
+     3.25s  hero entrance begins underneath (--intro-lift, see hero.css)
+     3.75s  gate gone, visibility:hidden, no longer hit-testable
+   Change any number here and --intro-lift in app/styles/base/variables.css
+   must move with it — the hero entrance is timed off that one token.
    ============================================================================= */
 
 .intro-gate {
@@ -25,29 +29,66 @@
   background     : var(--bg);
   /* `both` holds the opaque first frame even before the delay elapses, so
      there is no gap between paint and the animation taking over. */
-  animation      : introGateOut 0.45s var(--ease-out-soft) 1.5s both;
+  animation      : introGateOut 0.55s var(--ease-out-soft) 3.2s both;
 }
 
 .intro-gate-inner {
+  /* Two stages stacked in one cell so the cross-fade never reserves height
+     for both and nothing below it shifts. */
+  display  : grid;
   width    : min(760px, 86vw);
-  /* The status line sits under node 1, so the block reads left-aligned even
-     though the gate itself centres it. */
+  /* The pipeline status line sits under node 1, and the hero it reveals is
+     left-aligned — so the whole block reads left even though the gate centres
+     it in the viewport. */
   text-align: left;
+}
+
+.intro-stage {
+  grid-area : 1 / 1;
+  align-self: center;
+}
+
+/* Stage 1 -> out. `both` keeps it fully opaque through the delay, then holds
+   it hidden — which also masks the pipeline's own loop reset at 100%. */
+.intro-stage-pipeline {
+  animation: introStagePipelineOut 0.3s var(--ease-out-soft) 1.6s both;
+}
+
+/* Stage 2 -> in. Starts hidden, rises the same 12px the headline words do.
+   Its delay clears the pipeline's fade-out (~0.05s overlap) so the two never
+   sit half-lit on top of each other. */
+.intro-stage-line {
+  opacity  : 0;
+  animation: introStageLineIn 0.45s var(--ease-out-soft) 1.85s both;
+}
+
+.intro-line {
+  margin        : 0;
+  font-family   : var(--font-display);
+  font-size     : clamp(1.4rem, 3.4vw, 2.4rem);
+  font-weight   : 600;
+  line-height   : var(--lh-snug);
+  letter-spacing: -0.02em;
+  color         : var(--text);
+  text-wrap     : balance;
 }
 
 /* The pipeline is the same component as everywhere else; only its tempo and
    its loop behaviour change inside the gate. */
 .intro-gate .hero-pipeline {
-  /* 7s is the ambient looping tempo. A cover screen has to be over quickly. */
-  --pipeline-cycle      : 2s;
-  --pipeline-start-delay: 0.12s;
+  /* Slow enough that the "all lit, holding" window (65%-92% of the cycle,
+     ~1.53s-2.12s here) is still open when .intro-stage-pipeline fades out at
+     1.6s, so the diagram never visibly resets on screen. */
+  --pipeline-cycle      : 2.2s;
+  --pipeline-start-delay : 0.1s;
   margin-top            : 0;
   /* No slideUp here — the gate itself is the entrance. */
   animation             : none;
 }
 
-/* One pass, then hold on the finished diagram. Without `forwards` the whole
-   thing would snap back to empty the instant the single iteration ended. */
+/* One pass, then hold. Without `forwards` a single iteration would snap the
+   whole thing back to empty the instant it ended; the stage fade above hides
+   the reset either way, this is belt-and-braces. */
 .intro-gate .pipeline-progress,
 .intro-gate .pipeline-node,
 .intro-gate .pipeline-badge,
@@ -61,9 +102,31 @@
   to   { opacity: 0; visibility: hidden; }
 }
 
+@keyframes introStagePipelineOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes introStageLineIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Already seen this tab session, or the JS controller has confirmed the
+   sequence is done — skip the cover entirely. `data-intro-done` is set by the
+   pre-paint script in app/layout.tsx (from sessionStorage) and by
+   components/IntroGateController.tsx.
+   Also collapse --intro-lift to 0 so the hero entrance (hero.css) and the blob
+   bloom (effects.css) play straight away instead of waiting out a gate that is
+   not there. */
+:root[data-intro-done] .intro-gate { display: none; }
+:root[data-intro-done]            { --intro-lift: 0s; }
+
 /* ── Reduced motion ─────────────────────────────────────
    No cover at all. Someone who has asked for less motion should not be made
-   to sit through a 2s animated door before they can read the page. */
+   to sit through an animated door before they can read the page. The hero
+   below renders at rest (its own entrance is neutralised in
+   app/styles/layout/responsive.css). */
 @media (prefers-reduced-motion: reduce) {
   .intro-gate { display: none; }
 }

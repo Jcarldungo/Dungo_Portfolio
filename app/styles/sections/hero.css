@@ -60,7 +60,7 @@
 
 /* Word-by-word entrance, 90ms apart, each 0.45s. All measured from
    --intro-lift so the headline arrives as the intro gate lifts. This is
-   CSS rather than motion on purpose — see components/motion/HeroHeadline.tsx.
+   CSS rather than motion on purpose — see components/sections/HeroHeadline.tsx.
    `both` holds the 0-opacity first frame through the delay, so nothing
    flashes in before its turn. */
 .hero-word,
@@ -139,8 +139,9 @@
    intro gate lifts, not while it is still covering the page.
    Neutralised by the global prefers-reduced-motion block. */
 .hero-kicker  { animation: slideUp 0.55s var(--ease-spring) calc(0.06s + var(--intro-lift)) both; }
-/* .hero-name is driven by components/motion/HeroHeadline.tsx (word stagger,
-   0.10s-0.82s). No CSS animation here, or the two would fight over transform. */
+/* .hero-name words are staggered above (data-word delays, 0.10s-0.82s past
+   --intro-lift). No slideUp on .hero-name itself, or the two would fight
+   over transform. */
 .hero-support { animation: slideUp 0.55s var(--ease-spring) calc(0.60s + var(--intro-lift)) both; }
 .hero-desc    { animation: slideUp 0.55s var(--ease-spring) calc(0.68s + var(--intro-lift)) both; }
 .hero-cta     { animation: slideUp 0.55s var(--ease-spring) calc(0.76s + var(--intro-lift)) both; }

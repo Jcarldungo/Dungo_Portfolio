@@ -12,11 +12,11 @@
    ============================================================================= */
 
 .hero-pipeline {
+  /* Standalone defaults — a 7s ambient loop. The intro gate overrides both
+     of these (intro-gate.css) to run one fast pass. A UNIFORM start delay is
+     safe where per-node delays were not: every animated part shifts by the
+     same amount, so relative phase holds. */
   --pipeline-cycle: 7s;
-  /* The pipeline waits for the headline. Words land 0.10s-0.82s
-     (components/motion/HeroHeadline.tsx), so the sweep starts after.
-     A UNIFORM delay is safe here where per-node delays were not: every
-     animated part shifts by the same amount, so relative phase holds. */
   --pipeline-start-delay: 0.95s;
   /* Its own container, so the track condenses and stacks off ITS width, not
      the viewport. It lives in .hero-lead (~660px at desktop, full width once
@@ -40,8 +40,8 @@
   top          : calc(var(--node-size) / 2);
   left         : calc(var(--node-size) / 2);
   right        : calc(var(--node-size) / 2);
-  height       : 2px;
-  background   : var(--border);
+  height       : 3px;
+  background   : var(--border-2);
   border-radius: var(--radius-pill);
   overflow     : hidden;
 }
@@ -52,7 +52,7 @@
   width     : 0%;
   opacity   : 0;
   background: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow), 0 0 3px var(--accent-glow);
+  box-shadow: 0 0 18px 2px var(--accent-glow), 0 0 5px var(--accent-glow);
   animation : pipeline-sweep-x var(--pipeline-cycle) linear infinite;
   animation-delay: var(--pipeline-start-delay);
 }
@@ -79,11 +79,11 @@
   height        : var(--node-size);
   border-radius : var(--radius-pill);
   border        : 1px solid var(--border-2);
-  background    : var(--surface);
+  background    : var(--surface-2);
   display       : grid;
   place-items   : center;
   position      : relative;
-  color         : var(--text-3);
+  color         : var(--text-2);
   animation-duration          : var(--pipeline-cycle);
   animation-timing-function   : linear;
   animation-iteration-count   : infinite;
@@ -210,25 +210,27 @@
   100%     { opacity: 0; transform: scale(0.4); }
 }
 
+/* Lit stops also carry a monochrome glow, so a "done" node reads as active
+   rather than just recoloured. box-shadow is unset on the idle stops. */
 @keyframes pipeline-node-1 {
-  0%, 3%    { color: var(--text-3); border-color: var(--border-2); }
-  5%, 92%   { color: var(--accent); border-color: var(--accent); }
-  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+  0%, 3%    { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
+  5%, 92%   { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px -2px var(--accent-glow); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
 }
 @keyframes pipeline-node-2 {
-  0%, 23%   { color: var(--text-3); border-color: var(--border-2); }
-  25%, 92%  { color: var(--accent); border-color: var(--accent); }
-  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+  0%, 23%   { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
+  25%, 92%  { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px -2px var(--accent-glow); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
 }
 @keyframes pipeline-node-3 {
-  0%, 43%   { color: var(--text-3); border-color: var(--border-2); }
-  45%, 92%  { color: var(--accent); border-color: var(--accent); }
-  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+  0%, 43%   { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
+  45%, 92%  { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px -2px var(--accent-glow); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
 }
 @keyframes pipeline-node-4 {
-  0%, 63%   { color: var(--text-3); border-color: var(--border-2); }
-  65%, 92%  { color: var(--accent); border-color: var(--accent); }
-  98%, 100% { color: var(--text-3); border-color: var(--border-2); }
+  0%, 63%   { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
+  65%, 92%  { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px -2px var(--accent-glow); }
+  98%, 100% { color: var(--text-3); border-color: var(--border-2); box-shadow: 0 0 0 0 transparent; }
 }
 
 @keyframes pipeline-status-1 {

@@ -11,9 +11,10 @@
   pointer-events: none;
   z-index       : 0;
   overflow      : hidden;
-  /* First beat of the hero intro: shapes settle before the headline
-     starts at 0.10s. See components/motion/HeroHeadline.tsx. */
-  animation     : blobIntro 0.65s var(--ease-out-soft) both;
+  /* Held behind the intro cover, then bloomed in as it lifts — offset by
+     --intro-lift so the shapes arrive with the hero, not invisibly during
+     the gate. See app/styles/components/intro-gate.css. */
+  animation     : blobIntro 0.8s var(--ease-out-soft) var(--intro-lift) both;
 }
 
 .blob {

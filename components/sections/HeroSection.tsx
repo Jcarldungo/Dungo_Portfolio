@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { BLUR_DATA_URL } from '@/lib/blur';
-import { HeroHeadline } from '@/components/motion/HeroHeadline';
+import { HeroHeadline } from '@/components/sections/HeroHeadline';
 
 /** The site's signature visual device and identity anchor — preserved in
  *  content and composition from the previous multi-page Home hero. Only

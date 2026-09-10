@@ -106,6 +106,14 @@ const THEME_INIT_SCRIPT = `
     }
     document.documentElement.setAttribute('data-theme', saved);
   } catch (e) {}
+  try {
+    // Intro plays once per tab session. If it already ran, mark the document
+    // before first paint so CSS never shows the cover (no flash on reload).
+    // Set by components/IntroGateController after the sequence finishes.
+    if (sessionStorage.getItem('intro-seen') === '1') {
+      document.documentElement.setAttribute('data-intro-done', '');
+    }
+  } catch (e) {}
 })();
 `;
 
