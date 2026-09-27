@@ -8,6 +8,7 @@ export const SECTIONS: SectionMeta[] = [
   { id: 'home', label: 'Home' },
   { id: 'projects', label: 'Work' },
   { id: 'stack', label: 'Stack' },
+  { id: 'services', label: 'Services' },
   { id: 'about', label: 'About' },
   { id: 'experience', label: 'Experience' },
   { id: 'contact', label: 'Contact' },

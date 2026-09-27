@@ -1,0 +1,118 @@
+/* =============================================================================
+   SERVICES SECTION — "Where I can help": six kinds of work, each provable
+   from the Projects or Experience section elsewhere on the page (see the
+   comment above `services` in lib/content.ts). A numbered row list, not a
+   card grid — denser, and the number reuses the same "here's the receipt"
+   register the Experience timeline already established (see .exp-icon in
+   experience.css) rather than inventing a second numbering convention on
+   the same page.
+
+   No pricing tiers, no packages — a row here is a claim, not a sales pitch.
+   Row structure/hover follow the same bordered-list convention as
+   .cert-row / .cert-row-link below in experience.css.
+   ============================================================================= */
+
+.services-list {
+  list-style : none;
+  padding    : 0;
+  margin     : 0;
+  border-top : 1px solid var(--border);
+}
+
+.service-row {
+  display               : grid;
+  grid-template-columns : 40px 30px minmax(160px, 240px) 1fr;
+  align-items           : center;
+  column-gap            : var(--space-md);
+  padding               : var(--space-md) var(--space-sm);
+  border-bottom         : 1px solid var(--border);
+  /* Inset box-shadow rather than a border — it doesn't add its own width,
+     so the accent can appear on hover with no row-width/reflow shift. */
+  box-shadow            : inset 0 0 0 0 transparent;
+  transition            : background var(--transition-fast), box-shadow var(--transition-fast);
+}
+.service-row:hover,
+.service-row:focus-within {
+  background : var(--surface);
+  box-shadow : inset 2px 0 0 0 var(--accent);
+}
+
+/* Faint line-number badge — the same visual idea as .exp-icon in
+   experience.css, reused here so the two numbered lists on the page read
+   as one system. */
+.service-index {
+  font-family     : var(--font-mono);
+  font-size       : 0.78rem;
+  font-weight     : 500;
+  width           : 32px;
+  height          : 32px;
+  border-radius   : 50%;
+  background      : var(--bg-2);
+  border          : 1px solid var(--border-2);
+  color           : var(--text-3);
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  flex-shrink     : 0;
+  transition      : border-color var(--transition-fast), color var(--transition-fast);
+}
+.service-row:hover .service-index,
+.service-row:focus-within .service-index { border-color: var(--accent); color: var(--accent); }
+
+.service-icon {
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  color           : var(--text-2);
+  flex-shrink     : 0;
+  transition      : color var(--transition-fast);
+}
+.service-row:hover .service-icon,
+.service-row:focus-within .service-icon { color: var(--accent); }
+
+.service-title {
+  font-family    : var(--font-display);
+  font-size      : 0.95rem;
+  font-weight    : 800;
+  letter-spacing : -0.01em;
+  line-height    : 1.3;
+  color          : var(--text);
+}
+
+.service-desc {
+  font-size   : 0.85rem;
+  line-height : 1.5;
+  color       : var(--text-2);
+}
+
+/* ── Responsive ───────────────────────────────────────────
+   Below bp-md the four-column row no longer has room for the title and
+   description side by side. The badge/icon become a left rail spanning two
+   stacked rows — title, then description beneath it — so nothing truncates
+   and nothing forces the row wider than the viewport. */
+@media (max-width: 768px) {
+  .service-row {
+    grid-template-columns : 34px 26px 1fr;
+    grid-template-areas   :
+      "index icon title"
+      "index icon desc";
+    row-gap                : 4px;
+    column-gap             : var(--space-sm);
+  }
+  .service-index { grid-area: index; align-self: start; }
+  .service-icon  { grid-area: icon; align-self: start; }
+  .service-title { grid-area: title; }
+  .service-desc  { grid-area: desc; }
+}
+
+@media (max-width: 430px) {
+  .service-row { padding: var(--space-sm) var(--space-xs); }
+  .service-title { font-size: 0.9rem; }
+  .service-desc { font-size: 0.82rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-row,
+  .service-index,
+  .service-icon { transition: none; }
+}

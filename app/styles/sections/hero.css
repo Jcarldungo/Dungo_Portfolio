@@ -51,6 +51,35 @@
   margin        : 0 0 var(--space-sm);
 }
 
+/* Each headline word is its own animated box. inline-block because
+   translateY does nothing on a plain inline element. */
+.hero-word {
+  display     : inline-block;
+  margin-right: 0.26em;
+}
+
+/* Word-by-word entrance, 90ms apart, each 0.45s. All measured from
+   --intro-lift so the headline arrives as the intro gate lifts. This is
+   CSS rather than motion on purpose — see components/sections/HeroHeadline.tsx.
+   `both` holds the 0-opacity first frame through the delay, so nothing
+   flashes in before its turn. */
+.hero-word,
+.hero-role {
+  animation: wordUp 0.45s var(--ease-out-soft) both;
+}
+.hero-name [data-word="1"] { animation-delay: calc(var(--intro-lift) + 0.10s); }
+.hero-name [data-word="2"] { animation-delay: calc(var(--intro-lift) + 0.19s); }
+.hero-name [data-word="3"] { animation-delay: calc(var(--intro-lift) + 0.28s); }
+.hero-name [data-word="4"] { animation-delay: calc(var(--intro-lift) + 0.37s); }
+
+/* Reduced motion: no animation at all, which leaves the words at their
+   natural opacity:1. No !important needed now that no inline styles
+   are involved. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-word,
+  .hero-role { animation: none; }
+}
+
 .hero-role {
   display       : block;
   font-size     : clamp(1.1rem, 2.1vw, 1.55rem);
@@ -106,14 +135,18 @@
 }
 
 /* ── Entrance: staggered, CSS-only (above the fold, no observer) ─
+   Every delay is offset by --intro-lift so the hero arrives as the
+   intro gate lifts, not while it is still covering the page.
    Neutralised by the global prefers-reduced-motion block. */
-.hero-kicker  { animation: slideUp 0.55s var(--ease-spring) 0.00s both; }
-.hero-name    { animation: slideUp 0.60s var(--ease-spring) 0.06s both; }
-.hero-support { animation: slideUp 0.55s var(--ease-spring) 0.13s both; }
-.hero-desc    { animation: slideUp 0.55s var(--ease-spring) 0.20s both; }
-.hero-cta     { animation: slideUp 0.55s var(--ease-spring) 0.27s both; }
-.hero-stack   { animation: slideUp 0.55s var(--ease-spring) 0.34s both; }
-.hero-media   { animation: slideUp 0.70s var(--ease-out-soft) 0.18s both; }
+.hero-kicker  { animation: slideUp 0.55s var(--ease-spring) calc(0.06s + var(--intro-lift)) both; }
+/* .hero-name words are staggered above (data-word delays, 0.10s-0.82s past
+   --intro-lift). No slideUp on .hero-name itself, or the two would fight
+   over transform. */
+.hero-support { animation: slideUp 0.55s var(--ease-spring) calc(0.60s + var(--intro-lift)) both; }
+.hero-desc    { animation: slideUp 0.55s var(--ease-spring) calc(0.68s + var(--intro-lift)) both; }
+.hero-cta     { animation: slideUp 0.55s var(--ease-spring) calc(0.76s + var(--intro-lift)) both; }
+.hero-stack   { animation: slideUp 0.55s var(--ease-spring) calc(0.84s + var(--intro-lift)) both; }
+.hero-media   { animation: slideUp 0.70s var(--ease-out-soft) calc(0.30s + var(--intro-lift)) both; }
 
 /* ── Media: portrait + code card ──────────────────────── */
 .hero-media {

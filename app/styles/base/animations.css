@@ -37,6 +37,13 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Headline words. Shorter travel than slideUp (12px vs 24px) because
+   these are display type — a big glyph moving 24px reads as a lurch. */
+@keyframes wordUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -46,6 +53,17 @@
 @keyframes floatBlob {
   from { transform: translate(0, 0) scale(1); }
   to   { transform: translate(40px, 30px) scale(1.08); }
+}
+
+/* Blob entrance. Runs on .blob-wrap, never on .blob itself — the blobs are
+   already driving transform via floatBlob, and two animations on one
+   transform is a fight the later one wins. Scaling the parent leaves the
+   drift untouched. The brightness lift is the tint flash, monochrome per
+   variables.css: it settles to brightness(1), changing nothing at rest. */
+@keyframes blobIntro {
+  0%   { opacity: 0; transform: scale(0.92); filter: brightness(1.85); }
+  45%  { opacity: 1;                         filter: brightness(1.45); }
+  100% { opacity: 1; transform: scale(1);    filter: brightness(1); }
 }
 
 @keyframes pulse {

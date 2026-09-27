@@ -11,6 +11,10 @@
   pointer-events: none;
   z-index       : 0;
   overflow      : hidden;
+  /* Held behind the intro cover, then bloomed in as it lifts — offset by
+     --intro-lift so the shapes arrive with the hero, not invisibly during
+     the gate. See app/styles/components/intro-gate.css. */
+  animation     : blobIntro 0.8s var(--ease-out-soft) var(--intro-lift) both;
 }
 
 .blob {
@@ -62,6 +66,8 @@
    the user asks for reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   .blob { animation: none; }
+  /* Entrance resolves instantly, at rest. */
+  .blob-wrap { animation: none; opacity: 1; transform: none; filter: none; }
 }
 
 /* ── Social link icons ────────────────────────────────── */

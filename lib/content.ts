@@ -326,6 +326,17 @@ export type ExperienceEntry = { index: string; title: string; org: string; perio
 export const experience: ExperienceEntry[] = [
   {
     index: '01',
+    title: 'Full-Stack Developer Intern (OJT)',
+    org: 'On-the-Job Training — HR & Workforce Platform',
+    period: 'Jul 2026 – Present',
+    bullets: [
+      "Contributing full-stack across a production Laravel + Inertia + React rewrite of a legacy system — a shared component adopted platform-wide, and trusted to review and merge teammates' pull requests",
+      'Building a core workflow module end-to-end, from schema and backend services to the user-facing interface',
+      'Writing automated tests covering business-logic edge cases and interface regressions',
+    ],
+  },
+  {
+    index: '02',
     title: 'Student Aide — University Library',
     org: 'Holy Angel University',
     period: 'June 2025 – May 2026',
@@ -336,7 +347,7 @@ export const experience: ExperienceEntry[] = [
     ],
   },
   {
-    index: '02',
+    index: '03',
     title: 'Student Aide — HAU Store',
     org: 'Holy Angel University',
     period: 'Dec 2024 – June 2025',
@@ -371,6 +382,57 @@ export const focusAreas = [
   'Database & schema design',
   'Accessible by default',
   'Shipping under constraints',
+];
+
+export type ServiceOffering = { index: string; title: string; description: string };
+
+/** What I can help with — same provability rule as focusAreas above: every
+ *  line has to trace to real work, either published on this page or the
+ *  OJT placement described in Experience. (The provenance below is
+ *  documentation for editors, not shown on the page — no proof link on each
+ *  row; the receipt is that the same claim is made, in more detail, in the
+ *  Projects and Experience sections below.)
+ *    01 Full-Stack Web Development ..... gastos: full React frontend + serverless backend, end to end
+ *    02 System Design & Architecture ... gastos: 32 routes folded into 10 dispatcher functions
+ *                                         under a hard free-tier constraint
+ *    03 Database Management ............ gastos: ledger-derived balances, money kept as strings
+ *                                         end to end, never a stored/derivable-drift number
+ *    04 API Development & Integration .. gastos: REST API design; the OJT entry's schema +
+ *                                         backend services for its workflow module
+ *    05 Client Websites ................ WeePlay: hand-built CSS, accessible, fast on low-end phones
+ *    06 Business & Internal Tools ...... the OJT entry: the workflow module's user-facing interface
+ */
+export const services: ServiceOffering[] = [
+  {
+    index: '01',
+    title: 'Full-Stack Web Development',
+    description: 'End-to-end web apps — frontend, backend, and the database in between.',
+  },
+  {
+    index: '02',
+    title: 'System Design & Architecture',
+    description: "Structuring an app around its real constraints, not just the happy path.",
+  },
+  {
+    index: '03',
+    title: 'Database Management',
+    description: "Schemas and data models built so the numbers can't drift from the truth.",
+  },
+  {
+    index: '04',
+    title: 'API Development & Integration',
+    description: 'REST APIs designed to hold up under real load and real constraints.',
+  },
+  {
+    index: '05',
+    title: 'Client Websites',
+    description: 'Fast, accessible sites built for the browser a real customer actually opens.',
+  },
+  {
+    index: '06',
+    title: 'Business & Internal Tools',
+    description: 'Dashboards and workflow systems that a real team runs its day on.',
+  },
 ];
 
 export const siteInfo = {
