@@ -9,6 +9,15 @@ const nextConfig = {
     deviceSizes: [420, 640, 828, 1080, 1200, 1600, 1920],
     imageSizes: [128, 180, 256, 320],
   },
+  async redirects() {
+    return [
+      // The sidebar layout was trialled at /preview before becoming the site.
+      { source: '/preview', destination: '/', permanent: true },
+      { source: '/preview/:path*', destination: '/:path*', permanent: true },
+      // Case studies moved from /work/[slug] to /projects/[slug].
+      { source: '/work/:slug', destination: '/projects/:slug', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

@@ -1,13 +1,38 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getProject } from '@/lib/content';
+import { getProject, publishedProjects } from '@/lib/content';
 
-export default async function PreviewProject({ params }: { params: Promise<{ slug: string }> }) {
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return publishedProjects.map(p => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
+  if (!project) return {};
+  const url = `/projects/${project.slug}`;
+  return {
+    title: `${project.title} — ${project.category}`,
+    description: project.lede,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${project.title} — how it's built`,
+      description: project.lede,
+      url,
+      images: [{ url: project.previewImage ?? project.heroImage ?? '/images/og-image.jpg', alt: `${project.title} screenshot` }],
+    },
+  };
+}
+
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  return <article className="pv-detail"><Link className="pv-back" href="/preview/projects">← All projects</Link><h1 className="pv-page-title">{project.title}</h1><p className="pv-intro">{project.lede}</p>
+  return <article className="pv-detail"><Link className="pv-back" href="/projects">← All projects</Link><h1 className="pv-page-title">{project.title}</h1><p className="pv-intro">{project.lede}</p>
     <div className="pv-project-meta"><span>{project.category} · {project.status === 'in-progress' ? 'In progress' : 'Live'}</span><div>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer">Visit ↗</a>}{project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>}</div></div>
     <div className="pv-gallery">{project.screens?.map(screen => <figure key={screen.src}><Image src={screen.src} alt={`${project.title}: ${screen.label}`} width={1200} height={800} /><figcaption><strong>{screen.label}</strong> — {screen.caption}</figcaption></figure>)}</div>
     <section className="pv-block"><h2>The build</h2>{project.theBuild?.map(p => <p key={p}>{p}</p>)}</section>

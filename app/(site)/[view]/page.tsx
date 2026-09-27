@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { AboutSection } from '@/components/sections/AboutSection';
@@ -8,7 +9,23 @@ import { ProjectRows } from '../project-rows';
 import { Resources } from '../resources';
 import { Services } from '../services';
 
-export default async function PreviewPage({ params }: { params: Promise<{ view: string }> }) {
+const titles: Record<string, string> = {
+  services: 'Services', resources: 'Resources', projects: 'Projects', about: 'About me',
+  stack: 'Stack', experience: 'Experience & credentials', contact: "Let's connect",
+};
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return Object.keys(titles).map(view => ({ view }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ view: string }> }): Promise<Metadata> {
+  const { view } = await params;
+  return { title: titles[view], alternates: { canonical: `/${view}` } };
+}
+
+export default async function ViewPage({ params }: { params: Promise<{ view: string }> }) {
   const { view } = await params;
   const content: Record<string, React.ReactNode> = {
     services: <Services />,
@@ -20,5 +37,5 @@ export default async function PreviewPage({ params }: { params: Promise<{ view: 
     contact: <><h1 className="pv-page-title">Let&apos;s connect</h1><ContactSection /></>,
   };
   if (!content[view]) notFound();
-  return <><Link className="pv-back" href="/preview">← Home</Link>{content[view]}</>;
+  return <><Link className="pv-back" href="/">← Home</Link>{content[view]}</>;
 }
