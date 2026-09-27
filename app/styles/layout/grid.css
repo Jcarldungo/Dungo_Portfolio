@@ -52,3 +52,39 @@
   flex-wrap  : wrap;
   margin-top : var(--space-xl);
 }
+
+/* 404 top bar — carried over from the old /work case-study styles. */
+.work-topbar {
+  position       : sticky;
+  top            : 0;
+  z-index        : var(--z-navbar);
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : var(--space-md);
+  padding        : 12px clamp(16px, 4vw, 40px);
+  background      : var(--bg-glass);
+  backdrop-filter : blur(12px);
+  border-bottom   : 1px solid var(--border);
+}
+.work-wordmark {
+  font-family   : var(--font-display);
+  font-weight   : 800;
+  letter-spacing: -0.02em;
+  font-size     : 0.95rem;
+}
+.work-wordmark span {
+  font-family   : var(--font-mono);
+  font-weight   : 400;
+  font-size     : 0.78rem;
+  color         : var(--text-3);
+  letter-spacing: 0.04em;
+}
+.work-jump {
+  font-family  : var(--font-mono);
+  font-size    : 0.8rem;
+  color        : var(--text-3);
+  border-bottom : 1px solid transparent;
+  transition   : color var(--transition-fast), border-color var(--transition-fast);
+}
+.work-jump:hover { color: var(--text-2); border-bottom-color: var(--border-2); }

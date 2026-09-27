@@ -4,14 +4,17 @@ Working notes for Claude Code sessions in this repo. Read this before making cha
 
 ## What this is
 
-A single-page developer portfolio for Jann Carl Dungo. Next.js 15 (App Router) +
+A developer portfolio for Jann Carl Dungo. Next.js 15 (App Router) +
 React 19 + TypeScript, with a **hand-written CSS design system** under
 `app/styles/`. Tailwind 3 is installed but only as a thin utility layer bridged
 to the same CSS custom properties — the site's own stylesheets do the real work.
 
-- Home (`/`) is the whole portfolio as anchor-linked sections: `#home`,
-  `#projects`, `#stack`, `#about`, `#experience`, `#contact`.
-- `/work/[slug]` is a full-screen case study per published project.
+- Every page renders inside a persistent sidebar shell (`app/(site)/shell.tsx`,
+  styled by `app/(site)/preview.css`). Home (`/`) is the summary; each sidebar
+  item is its own page via `app/(site)/[view]`: `/projects`, `/stack`,
+  `/services`, `/about`, `/experience`, `/resources`, `/contact`.
+- `/projects/[slug]` is the case study per published project.
+- Old `/work/[slug]` and `/preview/*` URLs redirect to the routes above.
 - Deployed on Vercel → https://janncarl.vercel.app
 
 ## Commands
@@ -32,12 +35,11 @@ There is no test suite. `npm run build` passing (type check included) is the bar
 | Design tokens (colour, type scale, spacing, radius, transitions, z-index, `--shot-ratio`) | `app/styles/base/variables.css` |
 | Keyframes + `.reveal*` utilities | `app/styles/base/animations.css` |
 | Canonical breakpoints (desktop-first `max-width`) | `app/styles/base/breakpoints.css` |
-| Section anchor order + labels | `lib/sections.ts` |
+| Sidebar shell, nav links, home + view pages | `app/(site)/` (`shell.tsx`, `page.tsx`, `[view]/page.tsx`, `preview.css`) |
 | Stylesheet load order | `app/globals.css` |
 | Ambient blobs + particle canvas + the Level-3 gate | `components/AmbientBackground.tsx`, `app/styles/components/effects.css` |
 | Theme resolution (pre-paint script + provider) | `app/layout.tsx`, `components/ThemeProvider.tsx` |
-| Scroll-reveal engine / scroll-spy | `lib/useScrollReveal.ts`, `lib/useActiveSection.ts` |
-| Page-load intro (cover → SDLC pipeline → line of intent → hero) | `components/HeroIntroGate.tsx`, `components/sections/HeroPipeline.tsx`, `app/styles/components/intro-gate.css`, `app/styles/sections/hero-pipeline.css` |
+| Scroll-reveal engine | `lib/useScrollReveal.ts` |
 
 Fonts (via `next/font/google` in `app/layout.tsx`, all `display: swap`):
 **Syne** (display), **DM Sans** (body), **JetBrains Mono** (mono).
@@ -60,11 +62,9 @@ placeholder card.
   invisible.)
 - **Never hard-code a colour, space, radius, or breakpoint.** Add or reuse a
   token in `variables.css`; use the documented breakpoints.
-- **One signature visual device** — the `jann.js` code card in the hero. Don't
-  add competing decorative devices.
 - **`prefers-reduced-motion` honesty.** Level-2 entrance transforms off,
   Level-3 ambient (particles, blob drift) never mounts, reveals show content
-  immediately, the intro gate is skipped entirely. Every hover effect needs a
+  immediately. Every hover effect needs a
   keyboard/focus + touch equivalent. Disables are targeted (see
   `app/styles/layout/responsive.css`), not a blanket `0.01ms` freeze.
 - Primarily animate `transform` / `opacity`. No JS animation loops on mobile.

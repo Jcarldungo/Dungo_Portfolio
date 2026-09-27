@@ -19,7 +19,7 @@ export default function NotFound() {
         <Link href="/" className="work-wordmark" aria-label={`${siteInfo.name} — home`}>
           JD <span>/ 404</span>
         </Link>
-        <Link href="/#projects" className="work-jump">See the work →</Link>
+        <Link href="/projects" className="work-jump">See the work →</Link>
       </div>
 
       <main id="main-content" role="main" className="notfound-main">
@@ -31,7 +31,7 @@ export default function NotFound() {
           </p>
           <div className="notfound-actions">
             <Link className="btn btn-primary" href="/">Back home</Link>
-            <Link className="btn btn-outline" href="/#projects">See projects</Link>
+            <Link className="btn btn-outline" href="/projects">See projects</Link>
             <a className="work-jump" href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a>
           </div>
         </div>

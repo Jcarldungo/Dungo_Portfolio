@@ -93,7 +93,7 @@ const personSchema = {
     '@type': 'CreativeWork',
     name: p.title,
     description: p.lede,
-    url: `${SITE_URL}/work/${p.slug}`,
+    url: `${SITE_URL}/projects/${p.slug}`,
   })),
 };
 
@@ -105,14 +105,6 @@ const THEME_INIT_SCRIPT = `
       saved = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     }
     document.documentElement.setAttribute('data-theme', saved);
-  } catch (e) {}
-  try {
-    // Intro plays once per tab session. If it already ran, mark the document
-    // before first paint so CSS never shows the cover (no flash on reload).
-    // Set by components/IntroGateController after the sequence finishes.
-    if (sessionStorage.getItem('intro-seen') === '1') {
-      document.documentElement.setAttribute('data-intro-done', '');
-    }
   } catch (e) {}
 })();
 `;
