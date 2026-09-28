@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { publishedProjects, siteInfo, techToolCount } from '@/lib/content';
+import { useTheme } from '@/components/ThemeProvider';
 const links = [['/projects', 'Projects', 'grid'], ['/stack', 'Stack', 'stack'], ['/about', 'More about me', 'user'], ['/experience', 'Experience & credentials', 'briefcase']];
 export function PreviewShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [light, setLight] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const light = theme === 'light';
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuRef = useRef<HTMLButtonElement>(null);
@@ -28,7 +30,7 @@ export function PreviewShell({ children }: { children: React.ReactNode }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [mobileOpen]);
   const closeMenu = () => setMobileOpen(false);
-  return <div className={`pv pv-sidebar-layout${light ? ' pv-light' : ''}${collapsed ? ' pv-collapsed' : ''}${mobileOpen ? ' pv-menu-open' : ''}`}>
+  return <div className={`pv pv-sidebar-layout${collapsed ? ' pv-collapsed' : ''}${mobileOpen ? ' pv-menu-open' : ''}`}>
     <a className="pv-skip" href="#preview-main">Skip to content</a>
     <header className="pv-mobile-bar"><button ref={menuRef} aria-label="Open menu" aria-expanded={mobileOpen} aria-controls="preview-sidebar" onClick={() => { setMobileOpen(!mobileOpen); setCollapsed(false); }}>☰</button><Link href="/">Jann Carl Dungo</Link><span className="pv-mobile-status"><i className="pv-dot" />Open to work</span></header>
     {collapsed && <button className="pv-expand" aria-label="Expand sidebar" onClick={() => setCollapsed(false)}>☰</button>}
@@ -38,7 +40,7 @@ export function PreviewShell({ children }: { children: React.ReactNode }) {
       <div className="pv-sidebar-head"><Link href="/" onClick={closeMenu}>Jann Carl Dungo</Link><button ref={closeRef} aria-label="Collapse sidebar" onClick={() => { setCollapsed(true); setMobileOpen(false); menuRef.current?.focus(); }}><SidebarIcon type="panel" /></button></div>
       <Link className="pv-sidebar-contact" href="/contact" onClick={closeMenu}><SidebarIcon type="mail" />Contact</Link>
       <nav className="pv-side-nav" aria-label="Portfolio"><span className="pv-side-label">Explore</span><Link href="/resources" onClick={closeMenu} aria-current={pathname === '/resources' ? 'page' : undefined}><SidebarIcon type="resources" /><span>Resources</span></Link><span className="pv-side-label pv-side-group">Work with me</span><Link href="/services" onClick={closeMenu} aria-current={pathname === '/services' ? 'page' : undefined}><SidebarIcon type="briefcase" /><span>Services</span></Link><span className="pv-side-label pv-side-group">Portfolio</span>{links.map(([url, title, icon]) => <Link key={url} href={url} onClick={closeMenu} aria-current={pathname === url || (url.endsWith('projects') && pathname.includes('/projects/')) ? 'page' : undefined}><SidebarIcon type={icon} /><span>{title}</span>{title === 'Projects' && <small>{String(publishedProjects.length).padStart(2,'0')}</small>}{title === 'Stack' && <small>{techToolCount}</small>}</Link>)}</nav>
-      <div className="pv-side-bottom"><a className="pv-sidebar-resume" href="/resume.pdf" download>Résumé (PDF)<span>↓</span></a><p className="pv-side-available"><i className="pv-dot" />Open to internships &amp; freelance work</p><div className="pv-side-tools"><span>Pampanga, PH<small>GMT+8</small></span><button onClick={() => setLight(!light)} aria-label={`Switch to ${light ? 'dark' : 'light'} mode`}>◐</button><a href={`mailto:${siteInfo.email}`} aria-label="Email"><SidebarIcon type="mail" /></a><a href={siteInfo.github} aria-label="GitHub" target="_blank" rel="noreferrer"><SidebarIcon type="github" /></a><a href={siteInfo.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer">in</a></div></div>
+      <div className="pv-side-bottom"><a className="pv-sidebar-resume" href="/resume.pdf" download>Résumé (PDF)<span>↓</span></a><p className="pv-side-available"><i className="pv-dot" />Open to internships &amp; freelance work</p><div className="pv-side-tools"><span>Pampanga, PH<small>GMT+8</small></span><button onClick={toggleTheme} aria-label={`Switch to ${light ? 'dark' : 'light'} mode`}>◐</button><a href={`mailto:${siteInfo.email}`} aria-label="Email"><SidebarIcon type="mail" /></a><a href={siteInfo.github} aria-label="GitHub" target="_blank" rel="noreferrer"><SidebarIcon type="github" /></a><a href={siteInfo.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer">in</a></div></div>
       </div>
     </aside>
     <div className="pv-content-shell"><main id="preview-main" className="pv-main">{children}</main><footer className="pv-footer"><div><a href={siteInfo.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={siteInfo.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={`mailto:${siteInfo.email}`}>Email ↗</a></div><span>© {new Date().getFullYear()} {siteInfo.name}</span></footer></div>
