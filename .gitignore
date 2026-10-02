@@ -17,3 +17,4 @@ desktop.ini
 
 # Local git worktrees (isolated workspaces for in-progress branches)
 .worktrees/
+.claude/worktrees/
