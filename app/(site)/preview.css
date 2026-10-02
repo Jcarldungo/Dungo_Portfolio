@@ -109,3 +109,12 @@
 .pv-sidebar-layout .contact-meta dd{font-size:var(--pv-fs-secondary)}
 @media(min-width:601px){.pv-sidebar-layout .cert-row-link{grid-template-columns:9rem 1fr 5.5rem}}
 .pv-sidebar-layout .contact-meta dt,.pv-sidebar-layout .exp-org{font:inherit;font-size:var(--pv-fs-meta);letter-spacing:0;text-transform:none}
+/* Gallery: counter + arrow buttons in place of the native scrollbar. The strip still scroll-snaps for touch. */
+.pv-gallery{scrollbar-width:none;padding-bottom:0}.pv-gallery::-webkit-scrollbar{display:none}
+.pv-gallery:focus-visible{outline:2px solid var(--pv-muted);outline-offset:4px;border-radius:10px}
+.pv-gallery-controls{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.pv-gallery-count{font-size:14px;color:var(--pv-muted);font-variant-numeric:tabular-nums}
+.pv-gallery-controls>div{display:flex;gap:8px}
+.pv-gallery-controls button{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--pv-line);border-radius:10px;background:var(--pv-surface);color:var(--pv-text);cursor:pointer;font-size:15px;transition:background .18s,border-color .18s,opacity .18s}
+.pv-gallery-controls button:hover:not(:disabled),.pv-gallery-controls button:focus-visible{background:var(--pv-hover);border-color:var(--pv-muted)}
+.pv-gallery-controls button:disabled{opacity:.35;cursor:default}
