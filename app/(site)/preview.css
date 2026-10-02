@@ -87,16 +87,24 @@
 .pv-service{background:var(--pv-surface);border:1px solid var(--pv-line);border-radius:12px;padding:20px;margin-bottom:12px}.pv-service h3{font-size:16px;font-weight:500;margin:0 0 8px}.pv-service p{font-size:14px;color:var(--pv-body);line-height:1.7;margin:0}.pv-services~.pv-closing h2{font-size:18px;font-weight:500;margin-bottom:12px}
 /* Light grain: the dark grain (5%) vanishes on near-white, so light mode carries a heavier dose of the same noise. */
 [data-theme=light] .pv.pv-sidebar-layout{--pv-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='3 0 0 0 -1 3 0 0 0 -1 3 0 0 0 -1 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
-/* Reading scale: one step up to match the reference (16px body, 17px lead, 34px title). */
-.pv.pv-sidebar-layout{font-size:16px}
-.pv-sidebar-layout .pv-hero-title{font-size:34px;line-height:1.25}
-.pv-sidebar-layout .pv-intro{font-size:17px;line-height:1.65}
-.pv-sidebar-layout .pv-project-row h3{font-size:16px}
-.pv-sidebar-layout .pv-project-row p,.pv-sidebar-layout .pv-stack-summary,.pv-sidebar-layout .pv-stack-summary h3{font-size:14px}
-.pv-sidebar-layout .pv-block h2,.pv-sidebar-layout .pv-section-heading h2{font-size:15px}
-.pv-sidebar-layout .pv-page-title{font-size:32px}
-.pv-sidebar-layout .pv-actions,.pv-sidebar-layout .pv-availability{font-size:14px}
-.pv-sidebar-layout .pv-detail .pv-block p,.pv-sidebar-layout .pv-detail ul,.pv-sidebar-layout .exp-list{font-size:15px}
-.pv-sidebar-layout .about-bio p{font-size:16px}
-@media(max-width:900px){.pv-sidebar-layout .pv-hero-title{font-size:30px}}
-@media(max-width:600px){.pv-sidebar-layout .pv-intro{font-size:15px}.pv-sidebar-layout .pv-page-title{font-size:27px}}
+/* Type roles, measured against the reference. Every text element in the shell maps to one of six steps, in rem so a visitor's browser text size still applies:
+   title 34 · lead 17 (intros, bio) · body 16 (item names, case-study prose) · secondary 15 (descriptions, bullets) · ui 14 (section labels, links) · meta 13 (dates, tags, issuers). */
+.pv.pv-sidebar-layout{--pv-fs-title:2.125rem;--pv-fs-lead:1.0625rem;--pv-fs-body:1rem;--pv-fs-secondary:.9375rem;--pv-fs-ui:.875rem;--pv-fs-meta:.8125rem;font-size:var(--pv-fs-body)}
+@media(max-width:900px){.pv.pv-sidebar-layout{--pv-fs-title:1.875rem}}
+@media(max-width:600px){.pv.pv-sidebar-layout{--pv-fs-title:1.75rem;--pv-fs-lead:1rem}}
+.pv-sidebar-layout .pv-hero-title,.pv-sidebar-layout .pv-page-title{font-size:var(--pv-fs-title);line-height:1.25}
+.pv-sidebar-layout .pv-intro,.pv-sidebar-layout .about-bio p,.pv-sidebar-layout .section-subtitle{font-size:var(--pv-fs-lead);line-height:1.65}
+.pv-sidebar-layout .pv-profile img{width:80px;height:80px}
+.pv-sidebar-layout .pv-profile{gap:16px}
+.pv-sidebar-layout .pv-profile strong{font-size:1.375rem;font-weight:600;letter-spacing:-.02em;line-height:1.3}
+.pv-sidebar-layout .pv-profile span{font-size:var(--pv-fs-lead);line-height:1.4;text-wrap:balance}
+@media(max-width:600px){.pv-sidebar-layout .pv-profile img{width:64px;height:64px}.pv-sidebar-layout .pv-profile strong{font-size:1.25rem}.pv-sidebar-layout .pv-profile span{font-size:var(--pv-fs-secondary)}}
+.pv-sidebar-layout .pv-project-row h3,.pv-sidebar-layout .exp-title,.pv-sidebar-layout .pv-service h3,.pv-sidebar-layout .pv-resource-copy strong,.pv-sidebar-layout .pv-detail h3{font-size:var(--pv-fs-body);font-weight:500}
+.pv-sidebar-layout .pv-detail .pv-block p,.pv-sidebar-layout .pv-detail ul{font-size:var(--pv-fs-body);line-height:1.7}
+.pv-sidebar-layout .pv-project-row p,.pv-sidebar-layout .pv-stack-summary,.pv-sidebar-layout .pv-stack-summary h3,.pv-sidebar-layout .exp-list li,.pv-sidebar-layout .pv-service p,.pv-sidebar-layout .tech-item,.pv-sidebar-layout .pv-closing,.pv-sidebar-layout .contact-info-lede{font-size:var(--pv-fs-secondary);line-height:1.6}
+.pv-sidebar-layout .cert-name{font-family:inherit;font-size:var(--pv-fs-secondary);font-weight:500}
+.pv-sidebar-layout .pv-block h2,.pv-sidebar-layout .pv-section-heading h2,.pv-sidebar-layout .exp-timeline-label,.pv-sidebar-layout .cert-list-label{font-size:var(--pv-fs-ui);font-weight:500}
+.pv-sidebar-layout .pv-actions,.pv-sidebar-layout .pv-availability,.pv-sidebar-layout .pv-back,.pv-sidebar-layout .tech-group-label,.pv-sidebar-layout .pv-resource-copy>span{font-size:var(--pv-fs-ui)}
+.pv-sidebar-layout .pv-project-row div>span,.pv-sidebar-layout .pv-education,.pv-sidebar-layout .pv-section-heading>a,.pv-sidebar-layout .pv-github .pv-section-heading>a,.pv-sidebar-layout .pv-calendar-legend,.pv-sidebar-layout .cert-issuer,.pv-sidebar-layout .cert-date,.pv-sidebar-layout .cert-list-note,.pv-sidebar-layout .pv-facts span,.pv-sidebar-layout .pv-gallery figcaption,.pv-sidebar-layout .form-label,.pv-sidebar-layout .form-hint,.pv-sidebar-layout .contact-status,.pv-sidebar-layout .about-honor,.pv-sidebar-layout .focus-tag{font-size:var(--pv-fs-meta)}
+.pv-sidebar-layout .contact-meta dd{font-size:var(--pv-fs-secondary)}
+.pv-sidebar-layout .contact-meta dt,.pv-sidebar-layout .exp-org{font:inherit;font-size:var(--pv-fs-meta);letter-spacing:0;text-transform:none}

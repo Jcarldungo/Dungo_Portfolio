@@ -6,7 +6,7 @@ import { GitHubActivity } from './github';
 
 export default function Home() {
   return <>
-    <div className="pv-profile"><Image src="/images/profile.jpg" alt={siteInfo.name} width={58} height={58} priority /><div><strong>{siteInfo.name}</strong><span>Full-Stack Developer · Pampanga, PH</span></div></div>
+    <div className="pv-profile"><Image src="/images/profile.jpg" alt={siteInfo.name} width={80} height={80} priority /><div><strong>{siteInfo.name}</strong><span>Full-Stack Developer · Pampanga, PH</span></div></div>
     <h1 className="pv-hero-title">I design and build<br />structured <em>full-stack systems.</em></h1>
     <p className="pv-intro">From database architecture and backend APIs to responsive, production-ready interfaces. I&apos;m continuously learning, refining my craft, and looking to collaborate on meaningful projects.</p>
     <div className="pv-actions"><Link href="/projects">View my work <span>↗</span></Link><Link href="/contact">Let&apos;s connect <span>↗</span></Link><a href="/resume.pdf" download>Résumé (PDF) <span>↓</span></a></div>
