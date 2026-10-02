@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProject, publishedProjects } from '@/lib/content';
+import { Gallery } from '../../gallery';
 
 export const dynamicParams = false;
 
@@ -34,7 +34,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound();
   return <article className="pv-detail"><Link className="pv-back" href="/projects">← All projects</Link><h1 className="pv-page-title">{project.title}</h1><p className="pv-intro">{project.lede}</p>
     <div className="pv-project-meta"><span>{project.category} · {project.status === 'in-progress' ? 'In progress' : 'Live'}</span><div>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer">Visit ↗</a>}{project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>}</div></div>
-    <div className="pv-gallery">{project.screens?.map(screen => <figure key={screen.src}><Image src={screen.src} alt={`${project.title}: ${screen.label}`} width={1200} height={800} /><figcaption><strong>{screen.label}</strong> — {screen.caption}</figcaption></figure>)}</div>
+    <Gallery title={project.title} screens={project.screens ?? []} />
     <section className="pv-block"><h2>The build</h2>{project.theBuild?.map(p => <p key={p}>{p}</p>)}</section>
     <div className="pv-facts">{project.stats?.map(stat => <div key={stat.label}><span>{stat.label}</span><strong>{stat.value}</strong></div>)}</div>
     {([['What it does', project.whatItDoes], ['Under the hood', project.underTheHood]] as const).map(([title, points]) => <section className="pv-block" key={title}><h2>{title}</h2>{points?.map(point => <div className="pv-point" key={point.title}><h3>{point.title}</h3><p>{point.desc}</p></div>)}</section>)}
