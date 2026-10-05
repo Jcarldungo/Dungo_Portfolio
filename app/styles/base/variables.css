@@ -135,6 +135,7 @@
   --shadow      : 0 8px 32px rgba(0, 0, 0, 0.45);
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.6);
   --resume-backdrop : rgba(0, 0, 0, 0.6);
+  --mobile-bar-bg   : #000000;
 }
 
 /* ── LIGHT THEME ──────────────────────────────────────── */
@@ -157,4 +158,5 @@
   --shadow      : 0 8px 32px rgba(0, 0, 0, 0.08);
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.14);
   --resume-backdrop : rgba(18, 22, 26, 0.35);
+  --mobile-bar-bg   : var(--bg);
 }
