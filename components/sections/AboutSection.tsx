@@ -48,8 +48,8 @@ export function AboutSection() {
         <div className="about-body">
           <div className="about-bio reveal">
             <p>
-              I am <strong>Jann Carl Dungo</strong>, a software engineer and final-year BS Information Technology
-              student at Holy Angel University. I design and build web applications end to end, with particular
+              I am <strong>Jann Carl Dungo</strong>, a software engineer and final-year BSIT student at Holy Angel
+              University, majoring in Web Development. I design and build web applications end to end, with particular
               attention to data modelling, backend architecture, and accessible user interfaces.
             </p>
             <p>
