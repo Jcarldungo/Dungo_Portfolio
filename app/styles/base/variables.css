@@ -79,6 +79,15 @@
      in both themes. Keep the SVG palette and hotspot together here. */
   --cursor-arrow : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M3 3v17l5.2-4.6h7.2z' fill='%23ffffff' stroke='%23111113' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
 
+  /* Click ripple (components/ClickRipple.tsx): the ring's final diameter
+     and how long it takes to expand and fade. */
+  --click-ripple-size     : 34px;
+  --click-ripple-duration : 0.55s;
+
+  /* Résumé preview dialog (styles/components/resume-preview.css). */
+  --resume-dialog-width : 920px;
+  --resume-control      : 36px;
+
   /* ── Transitions ─────────────────────────────────────── */
   --transition-fast   : 0.2s ease;
   --transition-base   : 0.3s ease;
@@ -102,6 +111,7 @@
   --z-navbar   : 1000;
   --z-mobile   : 999;
   --z-overlay  : 1100;
+  --z-cursor   : 1200;
 }
 
 /* ── DARK THEME (default) ─────────────────────────────── */
@@ -124,6 +134,7 @@
   --red         : #f87171;
   --shadow      : 0 8px 32px rgba(0, 0, 0, 0.45);
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.6);
+  --resume-backdrop : rgba(0, 0, 0, 0.6);
 }
 
 /* ── LIGHT THEME ──────────────────────────────────────── */
@@ -145,4 +156,5 @@
   --red         : #dc2626;
   --shadow      : 0 8px 32px rgba(0, 0, 0, 0.08);
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.14);
+  --resume-backdrop : rgba(18, 22, 26, 0.35);
 }

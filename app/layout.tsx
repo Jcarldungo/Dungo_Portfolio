@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { AmbientBackground } from '@/components/AmbientBackground';
 import { RevealScope } from '@/components/RevealScope';
+import { ClickRipple } from '@/components/ClickRipple';
 import { siteInfo, publishedProjects } from '@/lib/content';
 import './globals.css';
 
@@ -12,15 +13,16 @@ const SITE_URL = siteInfo.url;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Jann Carl Dungo | Full-Stack Developer',
+    default: 'Jann Carl Dungo | Software Engineer',
     template: '%s | Jann Carl Dungo',
   },
   description:
-    'Jann Carl Dungo (jcdungoo20) — Full-Stack Developer building efficient full-stack systems with React, Vue.js, Node.js, PHP, and REST APIs.',
+    'Jann Carl Dungo (jcdungoo20) — Software Engineer building full-stack web systems: database design, REST APIs, and accessible interfaces with React, Node.js, and PHP.',
   applicationName: 'Jann Carl Dungo — Portfolio',
   keywords: [
     'Jann Carl Dungo',
     'jcdungoo20',
+    'software engineer',
     'full-stack developer',
     'Holy Angel University',
     'Node.js',
@@ -42,7 +44,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   openGraph: {
-    title: 'Jann Carl Dungo | Full-Stack Developer',
+    title: 'Jann Carl Dungo | Software Engineer',
     description:
       'Building structured, efficient full-stack systems with React, Vue.js, Node.js, PHP, and RESTful APIs.',
     type: 'website',
@@ -54,14 +56,14 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Jann Carl Dungo — Full-Stack Developer',
+        alt: 'Jann Carl Dungo — Software Engineer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Jann Carl Dungo | Full-Stack Developer',
-    description: 'Full-Stack Developer. React, Vue.js, Node.js, PHP, MySQL, MongoDB.',
+    title: 'Jann Carl Dungo | Software Engineer',
+    description: 'Software Engineer. Full-stack web systems with React, Node.js, PHP, and PostgreSQL.',
     images: ['/images/og-image.jpg'],
   },
 };
@@ -82,7 +84,7 @@ const personSchema = {
   alternateName: siteInfo.handle,
   url: SITE_URL,
   image: `${SITE_URL}/images/profile.jpg`,
-  jobTitle: 'Full-Stack Developer',
+  jobTitle: 'Software Engineer',
   email: `mailto:${siteInfo.email}`,
   address: { '@type': 'PostalAddress', addressRegion: 'Pampanga', addressCountry: 'PH' },
   alumniOf: { '@type': 'CollegeOrUniversity', name: siteInfo.education.school },
@@ -148,6 +150,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <AmbientBackground />
           <RevealScope />
+          <ClickRipple />
           {children}
         </ThemeProvider>
       </body>

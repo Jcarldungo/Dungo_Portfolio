@@ -1,5 +1,6 @@
-/* Native CSS cursor, inspired by marwieang.com. No tracking or animation.
-   Explicit control cursors still win; editable text keeps its native caret. */
+/* Native CSS cursor, inspired by marwieang.com. No tracking.
+   Explicit control cursors still win; editable text keeps its native caret.
+   The only motion is the press ripple below (components/ClickRipple.tsx). */
 @media (hover: hover) and (pointer: fine) {
   html {
     cursor: var(--cursor-arrow);
@@ -9,6 +10,55 @@
   summary,
   [role="button"]:not([aria-disabled="true"]) {
     cursor: pointer;
+  }
+}
+
+/* Press ripple: a ring spawned at the pointer on mousedown. Two rings out of
+   one element: the border expands and fades, the inner dot pops and fades
+   faster, so the press reads as a tap rather than a pulse. */
+.click-ripple {
+  position: fixed;
+  z-index: var(--z-cursor);
+  width: var(--click-ripple-size);
+  height: var(--click-ripple-size);
+  margin: calc(var(--click-ripple-size) / -2) 0 0 calc(var(--click-ripple-size) / -2);
+  border: 2px solid var(--text);
+  border-radius: 50%;
+  pointer-events: none;
+  animation:
+    click-ripple-grow var(--click-ripple-duration) var(--ease-spring) forwards,
+    click-ripple-fade var(--click-ripple-duration) linear forwards;
+}
+
+.click-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background: var(--text);
+  animation: click-ripple-dot var(--click-ripple-duration) var(--ease-out-soft) forwards;
+}
+
+@keyframes click-ripple-grow {
+  from { transform: scale(0.2); }
+  to   { transform: scale(1); }
+}
+
+@keyframes click-ripple-fade {
+  0%   { opacity: 0.9; }
+  35%  { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+
+@keyframes click-ripple-dot {
+  0%   { opacity: 0.7; transform: scale(1); }
+  60%  { opacity: 0;   transform: scale(0.4); }
+  100% { opacity: 0;   transform: scale(0.4); }
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .click-ripple {
+    display: none;
   }
 }
 

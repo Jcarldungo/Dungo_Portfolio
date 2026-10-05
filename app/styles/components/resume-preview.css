@@ -1,0 +1,177 @@
+/* =============================================================================
+   RÉSUMÉ PREVIEW — native <dialog> opened by components/ResumeLink.tsx.
+   It renders in the top layer, so it sits above the sidebar shell with no
+   z-index of its own.
+   ============================================================================= */
+
+.resume-dialog {
+  width: min(var(--resume-dialog-width), calc(100vw - var(--space-xl)));
+  height: calc(100dvh - var(--space-2xl));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.resume-dialog::backdrop {
+  background: var(--resume-backdrop);
+  backdrop-filter: blur(var(--space-xs));
+}
+
+.resume-dialog[open] {
+  animation: resume-dialog-in var(--transition-spring) both;
+}
+.resume-dialog[open]::backdrop {
+  animation: resume-backdrop-in var(--transition-base) both;
+}
+
+@keyframes resume-dialog-in {
+  from { opacity: 0; transform: translateY(var(--space-md)) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes resume-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Keep the page behind from scrolling while the preview is open. */
+html:has(.resume-dialog[open]) {
+  overflow: hidden;
+}
+
+.resume-dialog-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.resume-dialog-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.resume-dialog-bar h2 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-400);
+  font-weight: 500;
+}
+
+.resume-dialog-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.resume-dialog-actions a,
+.resume-dialog-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--resume-control);
+  padding: 0 var(--space-md);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--text-2);
+  font: inherit;
+  font-size: var(--fs-300);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.resume-dialog-actions button {
+  width: var(--resume-control);
+  padding: 0;
+}
+
+.resume-dialog-actions .resume-dialog-download {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.resume-dialog-actions a:focus-visible,
+.resume-dialog-actions button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.resume-dialog-actions a:active,
+.resume-dialog-actions button:active {
+  transform: translateY(1px);
+}
+
+@media (hover: hover) {
+  .resume-dialog-actions a:not(.resume-dialog-download):hover,
+  .resume-dialog-actions button:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+  .resume-dialog-actions .resume-dialog-download:hover {
+    background: var(--accent-2);
+  }
+}
+
+.resume-dialog-body {
+  flex: 1;
+  min-height: 0;
+  background: var(--bg-2);
+}
+
+.resume-dialog-body iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Desktop browsers render the PDF inline; most phones don't, so the way out
+   only shows at the mobile breakpoint. */
+.resume-dialog-fallback {
+  display: none;
+  margin: 0;
+  padding: var(--space-md);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-300);
+  color: var(--text-2);
+  text-align: center;
+}
+.resume-dialog-fallback a {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .resume-dialog {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+  .resume-dialog-bar {
+    padding-left: var(--space-md);
+  }
+  .resume-dialog-newtab {
+    display: none !important;
+  }
+  .resume-dialog-fallback {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resume-dialog[open],
+  .resume-dialog[open]::backdrop {
+    animation: none;
+  }
+}
