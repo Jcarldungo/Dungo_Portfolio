@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf0">
+  <meta name="description" content="FORM / SPACE is an independent architecture practice shaping quiet, enduring places.">
+  <title>FORM / SPACE — Architecture, considered</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="FORM / SPACE, home">FORM<span>/</span>SPACE</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation"><span></span><span></span></button>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <a href="#work">Selected work</a><a href="#studio">Studio</a><a href="#contact">Enquiries</a>
+    </nav>
+    <a class="header-note" href="#contact">Singapore · Available for select projects <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-topline"><span>Independent architecture practice</span><span>Singapore / Working everywhere</span></div>
+      <h1 id="hero-title">Room to<br><em>be.</em></h1>
+      <div class="hero-bottomline"><p>We shape thoughtful places for the lives unfolding inside them.</p><a class="text-link" href="#work">Explore selected work <span aria-hidden="true">↓</span></a></div>
+      <figure class="hero-image image-frame">
+        <img src="assets/interior.jpg" alt="A quiet, light-filled interior with natural materials" fetchpriority="high">
+        <figcaption><span>House in the Fold</span><span>Interior study · 2024</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="work section-pad" id="work" aria-labelledby="work-title">
+      <div class="section-heading"><div><p class="eyebrow">A considered collection</p><h2 id="work-title">Selected work<span class="serif-mark">.</span></h2></div><p class="section-intro">Each project begins with its setting, its light and the people who will call it their own.</p></div>
+      <div class="work-toolbar"><p><span id="project-count">02</span> studies</p><div class="filters" role="group" aria-label="Filter projects"><button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All <span>02</span></button><button class="filter-button" type="button" data-filter="residential" aria-pressed="false">Residential <span>01</span></button><button class="filter-button" type="button" data-filter="interiors" aria-pressed="false">Interiors <span>01</span></button></div></div>
+      <div class="project-grid" id="project-grid">
+        <article class="project project--wide" data-category="residential">
+          <button class="project-open" type="button" data-project="fold" aria-label="View House in the Fold project details">
+            <span class="project-image image-frame"><img src="assets/house.jpg" alt="A restrained modern house set into a green landscape" loading="lazy"><span class="image-index">01 / 02</span><span class="open-mark" aria-hidden="true">↗</span></span>
+            <span class="project-meta"><span><span class="project-name">House in the Fold</span><span class="project-subtitle">A home shaped by the slope</span></span><span class="project-type">Residential <span>·</span> 2024</span></span>
+          </button>
+        </article>
+        <article class="project project--offset" data-category="interiors">
+          <button class="project-open" type="button" data-project="quiet" aria-label="View A Quiet Interior project details">
+            <span class="project-image image-frame"><img src="assets/interior.jpg" alt="A calm interior study in warm wood and soft daylight" loading="lazy"><span class="image-index">02 / 02</span><span class="open-mark" aria-hidden="true">↗</span></span>
+            <span class="project-meta"><span><span class="project-name">A Quiet Interior</span><span class="project-subtitle">Material, light, and less</span></span><span class="project-type">Interiors <span>·</span> 2023</span></span>
+          </button>
+        </article>
+      </div>
+      <p class="archive-note">Concept studies · Independent practice</p>
+    </section>
+
+    <section class="studio section-pad" id="studio" aria-labelledby="studio-title">
+      <div class="studio-label"><p class="eyebrow">How we work</p><span class="studio-rule"></span><p>01 — 03</p></div>
+      <div class="studio-content"><h2 id="studio-title">Build less.<br><em>Notice more.</em></h2><p class="studio-statement">FORM / SPACE is a small architecture practice interested in the relationship between daily ritual and the built environment. We make spaces that feel inevitable: clear in plan, honest in material, generous with light.</p>
+        <div class="principles"><article><span>01</span><h3>Begin with place</h3><p>Climate, context and the existing fabric set the first lines of the brief.</p></article><article><span>02</span><h3>Choose with care</h3><p>Material decisions account for touch, age, repair and the way light travels.</p></article><article><span>03</span><h3>Leave room</h3><p>A good plan makes space for routines to change and for life to feel unhurried.</p></article></div>
+      </div>
+    </section>
+
+    <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
+      <div class="contact-copy"><p class="eyebrow">Start a conversation</p><h2 id="contact-title">Have a place<br>in mind<span class="serif-mark">?</span></h2><p>Tell us a little about it. We’ll get back to you to arrange a first conversation.</p><a class="contact-email" href="#enquiry-form">Use the enquiry form <span aria-hidden="true">↗</span></a></div>
+      <form class="enquiry-form" id="enquiry-form">
+        <p class="form-note">Or leave a note here <span>All fields marked * are required</span></p>
+        <label for="name">Your name <span>*</span></label><input id="name" name="name" autocomplete="name" required>
+        <label for="email">Email address <span>*</span></label><input id="email" name="email" type="email" autocomplete="email" required>
+        <label for="project-type">What are you planning? <span>*</span></label><select id="project-type" name="project-type" required><option value="" selected disabled>Select a project type</option><option>New home</option><option>Interior renovation</option><option>Hospitality or workplace</option><option>Something else</option></select>
+        <label for="message">A few details <span>*</span></label><textarea id="message" name="message" rows="3" required></textarea>
+        <button class="submit-button" type="submit">Prepare enquiry <span aria-hidden="true">↗</span></button>
+        <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="footer-wordmark" href="#top" aria-label="FORM / SPACE, back to top">FORM<span>/</span>SPACE</a><div class="footer-bottom"><span>© FORM / SPACE · 2024</span><span>Fictional concept · Frontend demo</span><a href="/projects/form-space">Back to portfolio project <span aria-hidden="true">↗</span></a></div></footer>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="dialog-title"><button class="dialog-close" type="button" aria-label="Close project details">Close <span aria-hidden="true">×</span></button><figure class="dialog-image image-frame"><img id="dialog-image" alt=""></figure><p class="eyebrow" id="dialog-kicker"></p><h2 id="dialog-title"></h2><p class="dialog-description" id="dialog-description"></p><div class="dialog-materials"><span>Material direction</span><p id="dialog-materials"></p></div><p class="dialog-footnote">Concept study · Fictional project</p></dialog>
+</body>
+</html>
+

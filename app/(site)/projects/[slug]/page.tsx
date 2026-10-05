@@ -33,7 +33,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = getProject(slug);
   if (!project) notFound();
   return <article className="pv-detail"><Link className="pv-back" href="/projects">← All projects</Link><h1 className="pv-page-title">{project.title}</h1><p className="pv-intro">{project.lede}</p>
-    <div className="pv-project-meta"><span>{project.category} · {project.status === 'in-progress' ? 'In progress' : 'Live'}</span><div>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer">Visit ↗</a>}{project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>}</div></div>
+    <div className="pv-project-meta"><span>{project.category} · {project.status === 'concept' ? 'Concept demo' : project.status === 'in-progress' ? 'In progress' : 'Live'}</span><div>{project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noreferrer">{project.status === 'concept' ? 'Open demo ↗' : 'Visit ↗'}</a>}{project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer">GitHub ↗</a>}</div></div>
     <Gallery title={project.title} screens={project.screens ?? []} />
     <section className="pv-block"><h2>The build</h2>{project.theBuild?.map(p => <p key={p}>{p}</p>)}</section>
     <div className="pv-facts">{project.stats?.map(stat => <div key={stat.label}><span>{stat.label}</span><strong>{stat.value}</strong></div>)}</div>
