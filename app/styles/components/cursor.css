@@ -1,0 +1,27 @@
+/* Native CSS cursor, inspired by marwieang.com. No tracking or animation.
+   Explicit control cursors still win; editable text keeps its native caret. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: var(--cursor-arrow);
+  }
+
+  a[href],
+  summary,
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+}
+
+/* Keep the browser's default cursor at the canonical mobile breakpoint,
+   including phones/tablets used with an attached mouse or trackpad. */
+@media (max-width: 768px) {
+  html {
+    cursor: auto;
+  }
+}
+
+@media (forced-colors: active) {
+  html {
+    cursor: auto;
+  }
+}

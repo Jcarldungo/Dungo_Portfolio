@@ -75,6 +75,10 @@
   --radius-lg   : 20px;
   --radius-pill : 999px;
 
+  /* Static desktop cursor: a white arrow with a dark outline stays visible
+     in both themes. Keep the SVG palette and hotspot together here. */
+  --cursor-arrow : url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M3 3v17l5.2-4.6h7.2z' fill='%23ffffff' stroke='%23111113' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 3, auto;
+
   /* ── Transitions ─────────────────────────────────────── */
   --transition-fast   : 0.2s ease;
   --transition-base   : 0.3s ease;
