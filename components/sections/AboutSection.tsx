@@ -48,18 +48,18 @@ export function AboutSection() {
         <div className="about-body">
           <div className="about-bio reveal">
             <p>
-              I&apos;m <strong>Jann Carl Dungo</strong>, a software engineer and final-year BSIT student at
-              Holy Angel University. I build web systems end to end, and I start with the data: get the schema
-              right and the API and interface have something solid to stand on.
+              I am <strong>Jann Carl Dungo</strong>, a software engineer and final-year BS Information Technology
+              student at Holy Angel University. I design and build web applications end to end, with particular
+              attention to data modelling, backend architecture, and accessible user interfaces.
             </p>
             <p>
-              Most of what I know came from shipping. A live site for a therapy clinic that had to load fast on
-              cheap phones. An offline-first expense tracker that serves 32 API routes from 10 functions to stay under a
-              hosting cap. And now an internship on a production Laravel and React rewrite, where I build modules from
-              schema to screen and review teammates&apos; pull requests.
+              My experience comes from delivering working software: a production website for a local therapy
+              clinic, an offline-capable personal finance application, and an ongoing internship on a large-scale
+              system rewrite, where I develop features from the data layer to the interface and take part in
+              code review.
             </p>
             <p>
-              I&apos;m open to software engineering roles, freelance builds, and collaborations.
+              I am open to software engineering roles, freelance engagements, and collaborative projects.
             </p>
           </div>
 
