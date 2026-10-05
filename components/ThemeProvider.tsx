@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 
 type Theme = 'dark' | 'light';
 
@@ -21,7 +22,9 @@ function resolveTheme(): Theme {
   return 'dark';
 }
 
-const ThemeContext = createContext<{ theme: Theme; toggleTheme: () => void } | null>(null);
+type Origin = { x: number; y: number };
+
+const ThemeContext = createContext<{ theme: Theme; toggleTheme: (origin?: Origin) => void } | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('dark');
@@ -47,15 +50,34 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  function toggleTheme() {
+  /** Switch theme. With an origin and View Transitions support, the new
+   *  theme is revealed as a circle growing from that point (the keyframes
+   *  live in styles/components/theme-transition.css). Otherwise, and under
+   *  reduced motion, it switches instantly. */
+  function toggleTheme(origin?: Origin) {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    document.documentElement.setAttribute('data-theme', next);
+    const apply = () => {
+      flushSync(() => setTheme(next));
+      document.documentElement.setAttribute('data-theme', next);
+    };
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
       /* ignore */
     }
+
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!origin || !doc.startViewTransition || reduce) {
+      apply();
+      return;
+    }
+    const root = document.documentElement;
+    const radius = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y));
+    root.style.setProperty('--theme-x', `${origin.x}px`);
+    root.style.setProperty('--theme-y', `${origin.y}px`);
+    root.style.setProperty('--theme-r', `${radius}px`);
+    doc.startViewTransition(apply);
   }
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
