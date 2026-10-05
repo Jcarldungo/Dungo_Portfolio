@@ -1,0 +1,29 @@
+/* =============================================================================
+   THEME SWITCH — circular reveal from the theme button.
+   components/ThemeProvider.tsx sets --theme-x / --theme-y (the button's
+   centre) and --theme-r (distance to the farthest corner), then wraps the
+   data-theme change in document.startViewTransition(). The new snapshot is
+   clipped to a circle that grows over the old one. Browsers without View
+   Transitions, and reduced motion, switch instantly.
+   ============================================================================= */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal var(--theme-reveal-duration) var(--ease-spring);
+}
+
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--theme-x) var(--theme-y)); }
+  to   { clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}

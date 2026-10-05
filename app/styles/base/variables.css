@@ -88,6 +88,9 @@
   --resume-dialog-width : 920px;
   --resume-control      : 36px;
 
+  /* Theme switch: how long the circular reveal takes to cover the page. */
+  --theme-reveal-duration : 0.7s;
+
   /* ── Transitions ─────────────────────────────────────── */
   --transition-fast   : 0.2s ease;
   --transition-base   : 0.3s ease;
