@@ -46,7 +46,7 @@ export function Gallery({ title, screens }: { title: string; screens: ProjectScr
       if (event.key === 'ArrowRight') { event.preventDefault(); step(1); }
       if (event.key === 'ArrowLeft') { event.preventDefault(); step(-1); }
     }}>
-      {screens.map((screen, i) => <figure key={screen.src} data-index={i}><Image src={screen.src} alt={`${title}: ${screen.label}`} width={1200} height={800} /><figcaption><strong>{screen.label}</strong>{screen.caption && <> — {screen.caption}</>}</figcaption></figure>)}
+      {screens.map((screen, i) => <figure key={screen.src} data-index={i}><Image src={screen.src} alt={`${title}: ${screen.label}`} width={1600} height={741} /><figcaption><strong>{screen.label}</strong>{screen.caption && <> — {screen.caption}</>}</figcaption></figure>)}
     </div>
     {screens.length > 1 && <div className="pv-gallery-controls">
       <span className="pv-gallery-count" aria-live="polite">{index + 1} / {screens.length}</span>

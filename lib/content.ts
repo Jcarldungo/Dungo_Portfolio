@@ -15,7 +15,7 @@ export type Project = {
   category: string;
   /** One sentence. Used on the catalogue card and the detail hero. */
   lede: string;
-  status: 'live' | 'client' | 'in-progress';
+  status: 'live' | 'client' | 'in-progress' | 'concept';
 
   /** Publish gate. A draft is hidden from the catalogue, the sitemap and the
    *  detail routes — there is deliberately no placeholder card, because an
@@ -53,6 +53,106 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: 'sideout',
+    title: 'SIDEOUT',
+    category: 'Sports club · Frontend concept',
+    lede: 'A sports club concept with an editorial venue website and an interactive session finder.',
+    status: 'concept',
+    previewImage: '/images/work/sideout-home-color.jpg',
+    heroImage: '/images/work/sideout-home-color.jpg',
+    liveUrl: '/demos/sideout/index.html',
+    cardTech: ['HTML', 'CSS', 'JavaScript'],
+    focus: 'Venue discovery and session selection',
+    roles: ['UI/UX Design', 'Frontend Development'],
+    screens: [
+      { src: '/images/work/sideout-home-color.jpg', label: 'The club', caption: 'Court photography and athletic typography introduce a fictional sports venue.' },
+      { src: '/images/work/sideout-sessions-color.jpg', label: 'Session finder', caption: 'Filter sample sessions and preview a reservation without sending a booking.' },
+    ],
+    theBuild: [
+      'SIDEOUT is a self-initiated frontend concept for a fictional sports club. The brief was to help a visitor understand the venue, choose how to play, and find a suitable session.',
+      'The visual system pairs forest green and lime with oversized type and natural court photography. Semantic HTML, CSS custom properties and vanilla JavaScript keep the demo independent of the portfolio framework.',
+      'Session availability and reservations are simulated in the browser. This demo does not connect to Courtside or take real bookings.',
+    ],
+    whatItDoes: [
+      { title: 'Find a session', desc: 'Day and session filters narrow a sample timetable.' },
+      { title: 'Preview a reservation', desc: 'A dialog carries the chosen session into a labelled form and explains the local demo result.' },
+      { title: 'Explore the venue', desc: 'Play options, photography and practical questions support the main booking path.' },
+    ],
+    underTheHood: [
+      { title: 'Standalone static frontend', desc: 'Relative assets and plain HTML, CSS and JavaScript run without a build step.' },
+      { title: 'Responsive interaction', desc: 'Keyboard focus, native dialogs and reduced-motion handling accompany the desktop and mobile layouts.' },
+    ],
+    outcome: ['A browsable design concept with a complete sample session-selection flow.'],
+    builtWith: ['HTML5', 'CSS custom properties', 'Vanilla JavaScript'],
+    builtFor: ['Sports venue website concept', 'Desktop and mobile'],
+  },
+  {
+    slug: 'daybreak',
+    title: 'DAYBREAK',
+    category: 'Café · Frontend concept',
+    lede: 'A café website concept pairing an editorial layout with a browsable menu and interactive selection drawer.',
+    status: 'concept',
+    previewImage: '/images/work/daybreak-home-color.jpg',
+    heroImage: '/images/work/daybreak-home-color.jpg',
+    liveUrl: '/demos/daybreak/index.html',
+    cardTech: ['HTML', 'CSS', 'JavaScript'],
+    focus: 'Menu discovery and visual identity',
+    roles: ['UI/UX Design', 'Frontend Development'],
+    screens: [
+      { src: '/images/work/daybreak-home-color.jpg', label: 'First impression', caption: 'Serif typography and coffee photography set the pace for a fictional café.' },
+      { src: '/images/work/daybreak-menu-color.jpg', label: 'The menu', caption: 'Filter categories and build a sample selection with calculated totals.' },
+    ],
+    theBuild: [
+      'DAYBREAK is a self-initiated website concept for a fictional café. Cream, peach and honey tones, serif headings and generous spacing create a warm setting for browsing the menu.',
+      'The menu is interactive: visitors can explore categories, add items, change quantities and review a calculated sample total. The selection stays in the current page and does not place an order.',
+    ],
+    whatItDoes: [
+      { title: 'Browse the menu', desc: 'Category controls keep a longer menu easy to scan.' },
+      { title: 'Build a sample selection', desc: 'An accessible drawer supports item quantities, removal and a running total.' },
+      { title: 'Plan a fictional visit', desc: 'An editorial feature and clearly marked sample venue details complete the concept.' },
+    ],
+    underTheHood: [
+      { title: 'Small client-side state', desc: 'Vanilla JavaScript maintains selected items and derives the total from quantities and prices.' },
+      { title: 'Independent design tokens', desc: 'A compact CSS token system controls the layout, type and warm café palette.' },
+    ],
+    outcome: ['A responsive café design study with a working menu preview.'],
+    builtWith: ['HTML5', 'CSS custom properties', 'Vanilla JavaScript'],
+    builtFor: ['Café website concept', 'Menu browsing'],
+  },
+  {
+    slug: 'form-space',
+    title: 'FORM / SPACE',
+    category: 'Architecture studio · Frontend concept',
+    lede: 'An architecture studio concept with an asymmetric project gallery, project details and an enquiry form preview.',
+    status: 'concept',
+    previewImage: '/images/work/form-space-home-color.jpg',
+    heroImage: '/images/work/form-space-home-color.jpg',
+    liveUrl: '/demos/form-space/index.html',
+    cardTech: ['HTML', 'CSS', 'JavaScript'],
+    focus: 'Project discovery and editorial presentation',
+    roles: ['UI/UX Design', 'Frontend Development'],
+    screens: [
+      { src: '/images/work/form-space-home-color.jpg', label: 'Studio introduction', caption: 'Architectural imagery and large typography establish a gallery-like composition.' },
+      { src: '/images/work/form-space-projects-color.jpg', label: 'Selected concepts', caption: 'Category filters and detail dialogs make the conceptual work browsable.' },
+    ],
+    theBuild: [
+      'FORM / SPACE is a self-initiated frontend study for a fictional architecture studio. Project names and descriptions are conceptual; the photographs illustrate the visual direction rather than work commissioned from a real studio.',
+      'An asymmetric gallery pairs natural architectural photography with ivory, sky blue and coral surfaces. Visitors can filter projects, inspect details and try a validated enquiry form. The form demonstrates local feedback without sending a message.',
+    ],
+    whatItDoes: [
+      { title: 'Explore project categories', desc: 'Gallery filters update visible concepts and their result count.' },
+      { title: 'Read project details', desc: 'Native dialogs pair imagery with a concept description and material notes.' },
+      { title: 'Try an enquiry', desc: 'Labelled fields validate the input and clearly identify the local-only completion state.' },
+    ],
+    underTheHood: [
+      { title: 'Framework-free interface', desc: 'Semantic HTML and lightweight JavaScript handle the gallery, navigation and enquiry preview.' },
+      { title: 'Responsive gallery', desc: 'The editorial composition adapts to smaller screens, with keyboard focus and reduced-motion support.' },
+    ],
+    outcome: ['A complete studio website concept with project browsing and an enquiry preview.'],
+    builtWith: ['HTML5', 'CSS custom properties', 'Vanilla JavaScript'],
+    builtFor: ['Architecture studio concept', 'Visual project presentation'],
+  },
   {
     slug: 'gastos',
     title: 'gastos',

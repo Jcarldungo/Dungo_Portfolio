@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123d32">
+  <meta name="description" content="SIDEOUT — a fictional neighborhood pickleball club concept.">
+  <title>SIDEOUT — Find your next game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Sideout home">SIDEOUT<span>.</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav"><span></span><span></span><span></span><b class="sr-only">Open menu</b></button>
+    <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+      <a href="#play">Play</a><a href="#sessions">Find a session</a><a href="#club">The club</a><a class="nav-cta" href="#sessions">Get on court <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <img class="hero-image" src="assets/hero.jpg" alt="Outdoor pickleball courts shaded by tall trees" fetchpriority="high">
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow"><span class="eyebrow-mark"></span> YOUR NEIGHBORHOOD COURT CLUB</p>
+        <h1 id="hero-title">GOOD GAMES.<br><span>GOOD PEOPLE.</span></h1>
+        <p class="hero-copy">Pick up a paddle. Find your people. Stay for one more game.</p>
+        <a class="button button-light" href="#sessions">Find your next game <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="hero-rail"><span>OPEN PLAY / ALL LEVELS</span><span>EST. FOR THE LOVE OF THE GAME</span></div>
+      <a class="hero-scroll" href="#club"><span class="scroll-line"></span> SCROLL TO EXPLORE</a>
+    </section>
+
+    <section class="club-strip" id="club" aria-label="Club details">
+      <p><span class="strip-label">THE SIDEOUT STANDARD</span><span>More rallies. Less fuss.</span></p>
+      <div class="strip-details"><span>PICKLEBALL COURTS</span><i></i><span>ALL LEVELS WELCOME</span><i></i><span>GOOD VIBES REQUIRED</span></div>
+      <span class="strip-symbol" aria-hidden="true">S<span>/</span>O</span>
+    </section>
+
+    <section class="section play-section" id="play">
+      <div class="section-heading">
+        <div><p class="eyebrow dark-eyebrow">A COURT FOR EVERY KIND OF PLAYER</p><h2>HOW DO YOU<br><span>WANT TO PLAY?</span></h2></div>
+        <p class="section-intro">New to the game or chasing your next close match? There’s a place for you on court.</p>
+      </div>
+      <div class="play-grid">
+        <article class="play-card play-open">
+          <div class="play-photo"><img src="assets/evening-play.jpg" alt="Players meeting for an evening pickleball game" loading="lazy"><span class="card-index">OPEN PLAY</span></div>
+          <div class="play-card-copy"><div><h3>Drop in.<br>Get a game.</h3><p>Rotating games, new faces, and room for every level.</p></div><a href="#sessions" aria-label="Find an open play session">↗</a></div>
+        </article>
+        <article class="play-card play-coach">
+          <div class="play-photo"><img src="assets/net-detail.jpg" alt="Close view of a pickleball net and court" loading="lazy"><span class="card-index">LEARN &amp; LEVEL UP</span></div>
+          <div class="play-card-copy"><div><h3>Build your<br>next shot.</h3><p>Small-group sessions for the skills you want to sharpen.</p></div><a href="#sessions" aria-label="Explore learn and level up sessions">↗</a></div>
+        </article>
+        <article class="play-note"><span class="note-mark" aria-hidden="true">S/</span><p>Come as you are.<br><strong>Leave with a rematch.</strong></p><a href="#sessions">See what’s on <span aria-hidden="true">→</span></a></article>
+      </div>
+    </section>
+
+    <section class="sessions-section" id="sessions">
+      <div class="sessions-photo"><img src="assets/paddle-detail.jpg" alt="Paddle and ball ready beside the court" loading="lazy"><span class="photo-caption">THE BEST PLANS END ON COURT.</span></div>
+      <div class="sessions-content">
+        <p class="eyebrow">YOUR NEXT GAME STARTS HERE</p><h2>FIND YOUR<br><span>COURT TIME.</span></h2>
+        <p class="sessions-intro">Choose a day and find a session that fits. These sample times are part of a fictional demo.</p>
+        <div class="day-filter" role="group" aria-label="Filter sessions by day">
+          <button type="button" class="day-button is-active" data-day="all" aria-pressed="true">All days</button>
+          <button type="button" class="day-button" data-day="Thursday" aria-pressed="false">Thu <span>Oct 8</span></button>
+          <button type="button" class="day-button" data-day="Friday" aria-pressed="false">Fri <span>Oct 9</span></button>
+          <button type="button" class="day-button" data-day="Saturday" aria-pressed="false">Sat <span>Oct 10</span></button>
+        </div>
+        <div class="type-filter" role="group" aria-label="Filter sessions by type">
+          <button type="button" class="type-button is-active" data-type="all" aria-pressed="true">All play</button>
+          <button type="button" class="type-button" data-type="Open play" aria-pressed="false">Open play</button>
+          <button type="button" class="type-button" data-type="First timers" aria-pressed="false">First timers</button>
+          <button type="button" class="type-button" data-type="Weekend mixer" aria-pressed="false">Weekend mixer</button>
+        </div>
+        <div class="session-list" aria-live="polite">
+          <article class="session-row" data-session-day="Thursday" data-session-type="Open play"><div class="session-time">THU <b>OCT 08</b><span>6:00 PM</span></div><div class="session-info"><h3>Open play</h3><p>All levels · 90 minutes</p></div><button class="reserve-button" data-session="Open play · Thursday, Oct 8 · 6:00 PM" type="button">Choose session <span aria-hidden="true">↗</span></button></article>
+          <article class="session-row" data-session-day="Friday" data-session-type="First timers"><div class="session-time">FRI <b>OCT 09</b><span>5:30 PM</span></div><div class="session-info"><h3>First timers</h3><p>New players · 60 minutes</p></div><button class="reserve-button" data-session="First timers · Friday, Oct 9 · 5:30 PM" type="button">Choose session <span aria-hidden="true">↗</span></button></article>
+          <article class="session-row" data-session-day="Saturday" data-session-type="Weekend mixer"><div class="session-time">SAT <b>OCT 10</b><span>9:00 AM</span></div><div class="session-info"><h3>Weekend mixer</h3><p>All levels · 2 hours</p></div><button class="reserve-button" data-session="Weekend mixer · Saturday, Oct 10 · 9:00 AM" type="button">Choose session <span aria-hidden="true">↗</span></button></article>
+        </div>
+        <p class="no-sessions" hidden>No sessions match both filters. Choose another day or session type.</p>
+        <p class="sample-note">Sample schedule for demonstration only. No live availability.</p>
+      </div>
+    </section>
+
+    <section class="gallery-section" aria-labelledby="gallery-title">
+      <div class="gallery-heading"><div><p class="eyebrow dark-eyebrow">COURT SIDE, GOOD SIDE</p><h2 id="gallery-title">A LITTLE LOOK<br><span>AROUND.</span></h2></div><p>Bright lines. Long rallies.<br>That post-game feeling.</p></div>
+      <div class="gallery-grid"><figure class="gallery-wide" tabindex="0"><img src="assets/evening-play.jpg" alt="Evening play at the club" loading="lazy"><figcaption>MAKE ROOM FOR ONE MORE</figcaption></figure><figure tabindex="0"><img src="assets/net-detail.jpg" alt="The net is set for a friendly match" loading="lazy"><figcaption>READY WHEN YOU ARE</figcaption></figure><figure tabindex="0"><img src="assets/paddle-detail.jpg" alt="Paddle and ball between games" loading="lazy"><figcaption>THE REMATCH IS YOURS</figcaption></figure></div>
+    </section>
+
+    <section class="faq-section">
+      <div class="faq-heading"><p class="eyebrow">BEFORE YOU ARRIVE</p><h2>GOOD TO<br><span>KNOW.</span></h2><p>First visit or fiftieth, here are a few quick answers.</p></div>
+      <div class="faq-list">
+        <details><summary>Do I need to bring a paddle?<span aria-hidden="true">+</span></summary><p>Bring your own if you have one. For this concept, loaner paddles are available at the front desk.</p></details>
+        <details><summary>Can beginners join open play?<span aria-hidden="true">+</span></summary><p>Absolutely. Open play welcomes every level, and the first-timer session is an easy way to learn the basics.</p></details>
+        <details><summary>What should I wear?<span aria-hidden="true">+</span></summary><p>Comfortable athletic clothes and court shoes with non-marking soles are a good fit.</p></details>
+        <details><summary>Is this a real booking?<span aria-hidden="true">+</span></summary><p>No. SIDEOUT is a fictional club concept and this page is a frontend demo. No booking is submitted.</p></details>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><a class="wordmark" href="#top">SIDEOUT<span>.</span></a><p>Good games start with showing up.</p><a class="back-link" href="/projects/sideout">Back to project <span aria-hidden="true">↗</span></a><small>Fictional concept · Frontend demo</small><small>© SIDEOUT CLUB</small></footer>
+
+  <dialog class="booking-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" type="button" aria-label="Close reservation dialog">×</button>
+    <p class="eyebrow dark-eyebrow">SAVE YOUR SPOT IN THE DEMO</p><h2 id="dialog-title">ONE MORE<br><span>GOOD GAME.</span></h2>
+    <p class="selected-session"></p>
+    <form class="booking-form">
+      <label for="guest-name">Your name</label><input id="guest-name" name="name" autocomplete="name" required>
+      <label for="guest-email">Email address</label><input id="guest-email" name="email" type="email" autocomplete="email" required>
+      <button class="button button-dark" type="submit">Continue <span aria-hidden="true">↗</span></button>
+      <p class="form-note">Demo only; no booking submitted.</p>
+    </form>
+    <div class="booking-complete" hidden><p class="completion-mark" aria-hidden="true">✓</p><h3 tabindex="-1">Preview complete.</h3><p>This was a demo interaction. No booking submitted.</p><button class="button button-dark done-button" type="button">Done</button></div>
+  </dialog>
+</body>
+</html>
+
