@@ -54,6 +54,81 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'courtside',
+    title: 'Courtside',
+    category: 'Booking system · Full stack',
+    lede: 'A court booking system for Philippine sports venues that only have a Facebook page, built so two people tapping the same slot can never both get it.',
+    status: 'in-progress',
+    shortDesc:
+      'Court booking with GCash payment holds and a staff dashboard. Double-booking is ruled out by a unique index in MySQL, not by application checks.',
+    previewImage: '/images/work/courtside-grid.jpg',
+    cardTech: ['Laravel', 'React', 'TypeScript', 'MySQL'],
+    githubUrl: 'https://github.com/Jcarldungo/courtside',
+    focus: 'Contention-safe booking and payment workflow',
+    roles: ['Full-Stack Developer', 'Database Design', 'UI/UX Design'],
+    heroImage: '/images/work/courtside-grid.jpg',
+    stats: [
+      { label: 'Double-booking', value: 'DB-enforced' },
+      { label: 'Payment hold', value: '15 min' },
+      { label: 'Backend tests', value: '104' },
+      { label: 'Status', value: 'Demo build' },
+    ],
+    screens: [
+      {
+        src: '/images/work/courtside-grid.jpg',
+        label: 'The grid',
+        caption: 'Times down, courts across, like a schedule taped to the fence. Every slot says what it is in words, not just colour.',
+      },
+      {
+        src: '/images/work/courtside-sheet.jpg',
+        label: 'Holding a slot',
+        caption: 'A name and a mobile number is the whole signup. Nothing is paid yet; the slot is held while the customer sends GCash.',
+      },
+      {
+        src: '/images/work/courtside-payment.jpg',
+        label: 'Payment',
+        caption: 'The countdown runs against a server deadline, so it stays right after a trip to the GCash app. Copy buttons carry the number and amount across.',
+      },
+      {
+        src: '/images/work/courtside-schedule.jpg',
+        label: 'Staff schedule',
+        caption: 'The same grid from the counter: who booked, and whether a receipt is waiting on staff or the customer is yet to pay.',
+      },
+      {
+        src: '/images/work/courtside-review.jpg',
+        label: 'Receipt review',
+        caption: 'Staff check the screenshot against GCash and confirm or reject it. A rejection needs a second step and can carry a reason the customer sees.',
+      },
+    ],
+    theBuild: [
+      'Courtside is built for pickleball courts in Pampanga, where bookings happen in Facebook comments and proof of payment is a GCash screenshot sent to someone’s personal number. It keeps that GCash-first habit and replaces everything around it: a public booking page, a 15-minute payment hold, and a staff dashboard.',
+      'The hard part is prime time. Two people can tap the same 7pm slot in the same second, and checking for a free slot before inserting cannot stop it, because the check and the write are separate trips to the database. Instead a stored generated column holds the start time only while a booking is live, and a unique index on court and that column means the database itself refuses a second live booking. Cancelled and expired rows become NULL there, so they never block the slot again.',
+      'The insert is the check. The service catches that specific index violation and turns it into an answer: the next open slot on the same court, offered as one tap. Status changes follow the same rule. Expiry, a receipt upload and a staff action can all hit one row at once, so each transition is a single conditional UPDATE that only succeeds if the row is still in the state it expects.',
+      'Holds are released by a queued job timed to the deadline, with a per-minute scheduled sweeper behind it in case the queue worker is down. The whole test suite runs against MySQL rather than SQLite, because the guarantee has to hold on the engine a venue will actually run.',
+    ],
+    whatItDoes: [
+      { title: 'Book without an account', desc: 'Pick a court and time, enter a name and number, and the slot is held for 15 minutes.' },
+      { title: 'Pay the way people already do', desc: 'Send GCash, upload the screenshot, and the page updates itself when staff confirm.' },
+      { title: 'Recover from a lost race', desc: 'If someone takes the slot first, the next open time on that court is offered straight away.' },
+      { title: 'Run the counter', desc: 'Staff see the day at a glance, review receipts, confirm or reject them, and block courts for maintenance.' },
+      { title: 'Try it as the owner', desc: 'A demo mode seeds a realistic week and opens the staff view in one tap, with a reset link for fresh data.' },
+      { title: 'Re-skin for another venue', desc: 'Name, hours, payment details and colours live in one config file, and the copy follows the venue’s own word for a court.' },
+    ],
+    underTheHood: [
+      { title: 'Uniqueness on a generated column', desc: 'A stored column that is NULL for dead rows, plus a unique index, gives MySQL a partial index it does not natively have.' },
+      { title: 'Conditional state transitions', desc: 'Every status change is one UPDATE … WHERE with its precondition, so a stale copy of a booking can never overwrite a newer one.' },
+      { title: 'Two layers of hold expiry', desc: 'A delayed queued job releases a hold on time, and a scheduled sweeper catches anything the queue missed.' },
+      { title: 'Server-driven theming', desc: 'Venue colours are injected as CSS custom properties and mapped through Tailwind 4’s @theme, so a re-skin needs no rebuild.' },
+    ],
+    outcome: [
+      'A working demo of the full flow, from tapping a slot to a staff-confirmed booking.',
+      'Double-booking is enforced by the database, and a test writes past the service layer to prove it.',
+      'Not yet deployed or used by a venue. Private receipt storage and stronger booking links are the next steps before real payments.',
+    ],
+    builtWith: ['Laravel 12', 'Inertia 2', 'React 19', 'TypeScript', 'Tailwind CSS 4', 'MySQL', 'Pest'],
+    builtFor: ['Sports venues', 'Customers on mobile', 'GCash payments'],
+  },
+  {
     slug: 'sideout',
     title: 'SIDEOUT',
     category: 'Sports club · Frontend concept',
