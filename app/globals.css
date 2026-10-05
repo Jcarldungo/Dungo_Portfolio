@@ -14,6 +14,7 @@
 @import './styles/components/buttons.css';
 @import './styles/components/forms.css';
 @import './styles/components/effects.css';
+@import './styles/components/cursor.css';
 
 @import './styles/sections/stack.css';
 @import './styles/sections/about.css';
