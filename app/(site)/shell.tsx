@@ -1,9 +1,11 @@
 'use client';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { publishedProjects, siteInfo, techToolCount } from '@/lib/content';
 import { useTheme } from '@/components/ThemeProvider';
+const TypingTest = dynamic(() => import('@/components/TypingTest'), { ssr: false });
 const links = [['/projects', 'Projects', 'grid'], ['/stack', 'Stack', 'stack'], ['/about', 'More about me', 'user'], ['/experience', 'Experience & credentials', 'award']];
 export function PreviewShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,6 +13,8 @@ export function PreviewShell({ children }: { children: React.ReactNode }) {
   const light = theme === 'light';
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [typingOpen, setTypingOpen] = useState(false);
+  const typingReturnRef = useRef<HTMLElement | null>(null);
   const menuRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -29,6 +33,24 @@ export function PreviewShell({ children }: { children: React.ReactNode }) {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [mobileOpen]);
+  const openTyping = () => {
+    if (document.querySelector('dialog[open]')) return;
+    typingReturnRef.current = mobileOpen ? menuRef.current : document.activeElement as HTMLElement;
+    setMobileOpen(false);
+    setTypingOpen(true);
+  };
+  useEffect(() => {
+    const onShortcut = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      if (!event.altKey || event.ctrlKey || event.metaKey || event.key.toLowerCase() !== 'j' || target.closest('input, textarea, [contenteditable="true"]') || document.querySelector('dialog[open]')) return;
+      event.preventDefault();
+      typingReturnRef.current = menuRef.current?.offsetParent ? menuRef.current : document.activeElement as HTMLElement;
+      setMobileOpen(false);
+      setTypingOpen(true);
+    };
+    document.addEventListener('keydown', onShortcut);
+    return () => document.removeEventListener('keydown', onShortcut);
+  }, []);
   const closeMenu = () => setMobileOpen(false);
   return <div className={`pv pv-sidebar-layout${collapsed ? ' pv-collapsed' : ''}${mobileOpen ? ' pv-menu-open' : ''}`}>
     <a className="pv-skip" href="#preview-main">Skip to content</a>
@@ -40,16 +62,18 @@ export function PreviewShell({ children }: { children: React.ReactNode }) {
       <div className="pv-sidebar-head"><Link href="/" onClick={closeMenu}>Jann Carl Dungo</Link><button ref={closeRef} aria-label="Collapse sidebar" onClick={() => { setCollapsed(true); setMobileOpen(false); menuRef.current?.focus(); }}><SidebarIcon type="panel" /></button></div>
       <Link className="pv-sidebar-contact" href="/contact" onClick={closeMenu}><SidebarIcon type="mail" />Contact</Link>
       <nav className="pv-side-nav" aria-label="Portfolio"><span className="pv-side-label">Explore</span><Link href="/resources" onClick={closeMenu} aria-current={pathname === '/resources' ? 'page' : undefined}><SidebarIcon type="resources" /><span>Resources</span></Link><span className="pv-side-label pv-side-group">Work with me</span><Link href="/services" onClick={closeMenu} aria-current={pathname === '/services' ? 'page' : undefined}><SidebarIcon type="briefcase" /><span>Services</span></Link><span className="pv-side-label pv-side-group">Portfolio</span>{links.map(([url, title, icon]) => <Link key={url} href={url} onClick={closeMenu} aria-current={pathname === url || (url.endsWith('projects') && pathname.includes('/projects/')) ? 'page' : undefined}><SidebarIcon type={icon} /><span>{title}</span>{title === 'Projects' && <small>{String(publishedProjects.length).padStart(2,'0')}</small>}{title === 'Stack' && <small>{techToolCount}</small>}</Link>)}</nav>
-      <div className="pv-side-bottom"><div className="pv-side-status"><p><strong><i className="pv-dot" />Open to work</strong><span>Pampanga, PH</span></p></div><div className="pv-side-foot"><span>GMT+8</span><button onClick={(event) => { const r = event.currentTarget.getBoundingClientRect(); toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 }); }} aria-label={`Switch to ${light ? 'dark' : 'light'} mode`}><SidebarIcon type="contrast" /></button><a href={`mailto:${siteInfo.email}`} aria-label="Email"><SidebarIcon type="mail" /></a><a href={siteInfo.github} aria-label="GitHub" target="_blank" rel="noreferrer"><SidebarIcon type="github" /></a><a href={siteInfo.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer"><SidebarIcon type="linkedin" /></a></div></div>
+      <div className="pv-side-bottom"><button type="button" className="pv-typing-trigger" aria-label="Typing test" aria-haspopup="dialog" aria-keyshortcuts="Alt+J" onClick={openTyping}><SidebarIcon type="keyboard" /><span>Typing test</span><kbd>Alt + J</kbd></button><div className="pv-side-status"><p><strong><i className="pv-dot" />Open to work</strong><span>Pampanga, PH</span></p></div><div className="pv-side-foot"><span>GMT+8</span><button data-theme-toggle onClick={(event) => { const r = event.currentTarget.getBoundingClientRect(); toggleTheme(event.detail === 0 ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : { x: event.clientX, y: event.clientY }); }} aria-label={`Switch to ${light ? 'dark' : 'light'} mode`}><SidebarIcon type="contrast" /></button><a href={`mailto:${siteInfo.email}`} aria-label="Email"><SidebarIcon type="mail" /></a><a href={siteInfo.github} aria-label="GitHub" target="_blank" rel="noreferrer"><SidebarIcon type="github" /></a><a href={siteInfo.linkedin} aria-label="LinkedIn" target="_blank" rel="noreferrer"><SidebarIcon type="linkedin" /></a></div></div>
       </div>
     </aside>
     <div className="pv-content-shell"><main id="preview-main" className="pv-main">{children}</main><footer className="pv-footer"><div><a href={siteInfo.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={siteInfo.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={`mailto:${siteInfo.email}`}>Email ↗</a></div><span>© {new Date().getFullYear()} {siteInfo.name}</span></footer></div>
+    {typingOpen && <TypingTest onClose={() => { setTypingOpen(false); window.setTimeout(() => typingReturnRef.current?.focus(), 0); }} />}
   </div>;
 }
 function SidebarIcon({ type }: { type: string }) {
   // One family (Lucide geometry, 1.5 stroke, rounded corners) so nav, controls and social marks read as a set.
   const paths: Record<string,string> = {
     panel:'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M9 3v18',
+    keyboard:'M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z M6 9h.01 M10 9h.01 M14 9h.01 M18 9h.01 M6 12h.01 M10 12h.01 M14 12h.01 M18 12h.01 M7 15h10',
     menu:'M4 7h16 M4 12h16 M4 17h16',
     mail:'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z M22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7',
     resources:'M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z M14 2v4a2 2 0 0 0 2 2h4 M16 13H8 M16 17H8 M10 9H8',

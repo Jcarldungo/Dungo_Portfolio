@@ -94,7 +94,21 @@
   --resume-button-font : 0.875rem;
 
   /* Theme switch: how long the circular reveal takes to cover the page. */
-  --theme-reveal-duration : 0.7s;
+  --theme-reveal-duration : 0.54s;
+  --ease-theme-reveal : cubic-bezier(0.32, 0.08, 0.24, 1);
+
+  /* Typing test: a quiet overlay and a compact physical keyboard. */
+  --typing-width : 880px;
+  --typing-word-size : clamp(1.125rem, 2.5vw, 1.5rem);
+  --typing-word-height : 2.5rem;
+  --typing-word-area : 10rem;
+  --typing-key-size : 2.4rem;
+  --typing-key-mobile-size : clamp(1.25rem, 6.5vw, 2.4rem);
+  --typing-key-space : 15rem;
+  --typing-result-size : clamp(3rem, 10vw, 5rem);
+  --typing-caret-width : 2px;
+  --typing-blur : 13px;
+  --typing-caret-duration : 1.05s;
 
   /* ── Transitions ─────────────────────────────────────── */
   --transition-fast   : 0.2s ease;
@@ -144,6 +158,7 @@
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.6);
   --resume-backdrop : rgba(0, 0, 0, 0.6);
   --mobile-bar-bg   : #000000;
+  --typing-bg : #0f0f11;
 }
 
 /* ── LIGHT THEME ──────────────────────────────────────── */
@@ -167,4 +182,5 @@
   --shadow-lg   : 0 24px 64px rgba(0, 0, 0, 0.14);
   --resume-backdrop : rgba(18, 22, 26, 0.35);
   --mobile-bar-bg   : var(--bg);
+  --typing-bg : #fcfcfb;
 }

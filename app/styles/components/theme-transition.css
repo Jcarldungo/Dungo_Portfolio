@@ -1,7 +1,7 @@
 /* =============================================================================
    THEME SWITCH — circular reveal from the theme button.
    components/ThemeProvider.tsx sets --theme-x / --theme-y (the button's
-   centre) and --theme-r (distance to the farthest corner), then wraps the
+   click position) and --theme-r (distance to the farthest corner), then wraps the
    data-theme change in document.startViewTransition(). The new snapshot is
    clipped to a circle that grows over the old one. Browsers without View
    Transitions, and reduced motion, switch instantly.
@@ -9,8 +9,16 @@
 
 /* Capture the final theme, without a competing background fade or the
    browser's default geometry animation moving the page snapshot. */
-html[data-theme-transition] body {
-  transition: none;
+html[data-theme-transition],
+html[data-theme-transition] *,
+html[data-theme-transition] *::before,
+html[data-theme-transition] *::after {
+  transition: none !important;
+}
+
+/* The snapshot layer must not steal hover from the control below it. */
+::view-transition {
+  pointer-events: none;
 }
 
 ::view-transition-group(root) {
@@ -24,7 +32,7 @@ html[data-theme-transition] body {
 }
 
 ::view-transition-new(root) {
-  animation: theme-reveal var(--theme-reveal-duration) var(--ease-spring);
+  animation: theme-reveal var(--theme-reveal-duration) var(--ease-theme-reveal) both;
 }
 
 @keyframes theme-reveal {
