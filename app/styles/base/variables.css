@@ -87,6 +87,11 @@
   /* Résumé preview dialog (styles/components/resume-preview.css). */
   --resume-dialog-width : 920px;
   --resume-control      : 36px;
+  --resume-button-height : 44px;
+  --resume-button-padding : 20px;
+  --resume-button-gap : 10px;
+  --resume-button-icon : 16px;
+  --resume-button-font : 0.875rem;
 
   /* Theme switch: how long the circular reveal takes to cover the page. */
   --theme-reveal-duration : 0.7s;

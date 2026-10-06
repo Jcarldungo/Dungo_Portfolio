@@ -7,6 +7,16 @@
    Transitions, and reduced motion, switch instantly.
    ============================================================================= */
 
+/* Capture the final theme, without a competing background fade or the
+   browser's default geometry animation moving the page snapshot. */
+html[data-theme-transition] body {
+  transition: none;
+}
+
+::view-transition-group(root) {
+  animation: none;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
