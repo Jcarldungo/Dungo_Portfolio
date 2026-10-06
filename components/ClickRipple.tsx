@@ -16,6 +16,9 @@ export function ClickRipple() {
     const onDown = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse' || event.button !== 0) return;
       if (!fine.matches || reduce.matches) return;
+      // The theme reveal is already click feedback. A ripple captured in
+      // its snapshots would freeze, then disappear when the reveal ends.
+      if (event.target instanceof Element && event.target.closest('[data-theme-toggle]')) return;
       const ring = document.createElement('span');
       ring.className = 'click-ripple';
       ring.setAttribute('aria-hidden', 'true');

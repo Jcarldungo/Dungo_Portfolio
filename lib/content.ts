@@ -559,6 +559,9 @@ export const focusAreas = [
   'Shipping under constraints',
 ];
 
+// Common words for the optional typing exercise. No personal speed claims.
+export const typingWordBank = ('build clear work time place first next small large open close under above after before write read think learn make take give find keep move stand begin again system code design test page world people change help form line point group run play right left head hand water light dark home house land tree river sky book day night year week way good new old long short other through each every only still never always while where when what how you your they their we our the a and for from with about into over between without can will would should may need want know see look feel use set call show tell leave turn follow hold bring start end word number real simple public').split(' ');
+
 export const siteInfo = {
   name: 'Jann Carl Dungo',
   handle: 'jcdungoo20',
