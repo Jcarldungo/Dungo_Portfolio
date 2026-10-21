@@ -574,7 +574,7 @@ export const experience: ExperienceEntry[] = [
   {
     index: '02',
     title: 'Full-Stack Developer Intern (OJT)',
-    org: 'On-the-Job Training — HR & Workforce Platform',
+    org: 'Pelozden RSS Inc. — On-the-Job Training',
     period: 'Jul 2026 – Oct 2026',
     bullets: [
       "Worked full-stack on a production Laravel + Inertia + React rewrite of a legacy system — built a shared component adopted platform-wide, and was trusted to review and merge teammates' pull requests",
@@ -651,7 +651,7 @@ export const siteInfo = {
     honor: "Dean's Lister · 2023–present",
   },
   github: 'https://github.com/Jcarldungo',
-  linkedin: 'https://www.linkedin.com/in/jann-carl-dungo-3948272a1/',
+  linkedin: 'https://www.linkedin.com/in/janncarldungo/',
   emailjs: {
     publicKey: 'LwJqauSQo1Xu0WEHk',
     serviceId: 'service_6vyl1sy',
