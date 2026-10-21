@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: '/images/og-image-2026-10.jpg',
         width: 1200,
         height: 630,
         alt: 'Jann Carl Dungo — Software Developer',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Jann Carl Dungo | Software Developer',
     description: 'Software Developer. Full-stack web systems with React, Node.js, PHP, and PostgreSQL.',
-    images: ['/images/og-image.jpg'],
+    images: ['/images/og-image-2026-10.jpg'],
   },
 };
 
