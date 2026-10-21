@@ -29,7 +29,7 @@ export function ContactSection() {
           <div className="contact-info reveal-left">
             <h3 className="contact-info-title">Say hello</h3>
             <p className="contact-info-lede">
-              Hiring a software engineer, want to collaborate, or just want to
+              Hiring a software developer, want to collaborate, or just want to
               connect? The fastest way to reach me is email.
             </p>
 

@@ -7,9 +7,9 @@ import { ResumeIcon, ResumeLink } from '@/components/ResumeLink';
 
 export default function Home() {
   return <>
-    <div className="pv-profile-row"><div className="pv-profile"><Image src="/images/profile.jpg" alt={siteInfo.name} width={80} height={80} priority /><div><strong>{siteInfo.name}</strong><span>Software Engineer · Pampanga, PH</span></div></div><ResumeLink className="pv-resume" ariaLabel="Preview resume (PDF)"><ResumeIcon />Resume</ResumeLink></div>
+    <div className="pv-profile-row"><div className="pv-profile"><Image src="/images/profile.jpg" alt={siteInfo.name} width={80} height={80} priority /><div><strong>{siteInfo.name}</strong><span>Software Developer · Pampanga, PH</span></div></div><ResumeLink className="pv-resume" ariaLabel="Preview resume (PDF)"><ResumeIcon />Resume</ResumeLink></div>
     <h1 className="pv-hero-title">I design and build<br />structured <em>full-stack systems.</em></h1>
-    <p className="pv-intro">I&apos;m <strong>{siteInfo.name}</strong>, a software engineer and BSIT student at Holy Angel University, majoring in Web Development, based in Pampanga, Philippines. I design, build and ship web applications that are reliable, accessible and easy to use.</p>
+    <p className="pv-intro">I&apos;m <strong>{siteInfo.name}</strong>, a software developer and BSIT student at Holy Angel University, majoring in Web Development, based in Pampanga, Philippines. I design, build and ship web applications that are reliable, accessible and easy to use.</p>
     <div className="pv-actions"><Link href="/projects">View my work <span>↗</span></Link><Link href="/contact">Let&apos;s connect <span>↗</span></Link></div>
     <div className="pv-availability"><span className="pv-dot" />Open to junior developer roles &amp; freelance work</div>
     <div className="pv-education"><span>BSIT — Web Development</span><span>Holy Angel University</span><span>Dean&apos;s Lister (2023–present)</span></div>
