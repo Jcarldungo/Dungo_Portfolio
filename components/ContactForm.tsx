@@ -146,7 +146,7 @@ export function ContactForm() {
         <label className="form-label" htmlFor="cf-subject">Subject</label>
         <input
           className={`form-input${errors.subject ? ' error' : ''}`}
-          type="text" placeholder="Internship / Collaboration / etc." autoComplete="off"
+          type="text" placeholder="Job / Freelance / Collaboration / etc." autoComplete="off"
           {...bind('subject')}
         />
         {errors.subject && <span className="form-error" id="cf-subject-error" role="alert">{ERROR_MESSAGES.subject}</span>}

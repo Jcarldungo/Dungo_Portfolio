@@ -54,9 +54,9 @@ export function AboutSection() {
             </p>
             <p>
               My experience comes from delivering working software: a production website for a local therapy
-              clinic, an offline-capable personal finance application, and an ongoing internship on a large-scale
-              system rewrite, where I develop features from the data layer to the interface and take part in
-              code review.
+              clinic, freelance client work for a Japan travel company, an offline-capable personal finance
+              application, and an internship on a large-scale system rewrite, where I developed features from the
+              data layer to the interface and took part in code review.
             </p>
             <p>
               I am open to software engineering roles, freelance engagements, and collaborative projects.
