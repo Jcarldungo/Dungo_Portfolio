@@ -20,7 +20,7 @@ export function ContactSection() {
           <div className="section-label"><span className="c-comment">{'// '}</span>get in touch</div>
           <h2 className="section-title" id="contact-title">Let&apos;s <span className="title-em">Connect</span></h2>
           <p className="section-subtitle">
-            Open to internship opportunities, freelance full-stack projects, and academic
+            Open to junior developer roles, freelance full-stack projects, and academic
             collaborations.
           </p>
         </div>

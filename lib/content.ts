@@ -22,6 +22,9 @@ export type Project = {
    *  empty slot on a portfolio reads worse than a shorter catalogue. Fill the
    *  fields below and drop this flag to publish. */
   draft?: boolean;
+  /** Shown in the home page's short list. The full catalogue at /projects
+   *  shows every published project regardless. */
+  featured?: boolean;
   /** One restrained accent (hex). Falls back to the monochrome ink accent. */
   accent?: string;
 
@@ -54,11 +57,61 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: 'sakka-travel',
+    title: 'Sakka Travel',
+    category: 'Client website · B2B',
+    lede: 'A B2B site for a Japan inbound travel company that sells to overseas agencies, built to the client’s brand guidelines and handed over in Wix so their team can edit it themselves.',
+    status: 'client',
+    // Hidden until the client agrees to it being shown. Add screens from the
+    // live site, then drop this flag.
+    draft: true,
+    featured: true,
+    accent: '#C5A059',
+    shortDesc:
+      'Freelance client work: a one-page B2B site for a Japan travel company, prototyped in Astro and rebuilt in Wix so the client can edit it, with a partner inquiry form wired to their inboxes.',
+    cardTech: ['Wix', 'Astro', 'Wix Forms', 'Accessibility'],
+    liveUrl: 'https://sakkatravel.com',
+    focus: 'Client-editable B2B website',
+    roles: ['Freelance Web Developer', 'UI Implementation', 'Client liaison'],
+    stats: [
+      { label: 'Contract', value: '3 months' },
+      { label: 'Platform', value: 'Wix' },
+      { label: 'Audience', value: 'Travel agencies' },
+      { label: 'Status', value: 'Live · ongoing engagement' },
+    ],
+    theBuild: [
+      'Sakka Travel arranges trips in the Japanese Alps for overseas travel agencies. The brief was a one-page B2B site: seasonal focus, the company story, B2B products, sample itineraries, the properties they manage, and a way for an agency to get in touch.',
+      'I first built it as a static Astro site to the client’s brand guidelines (colours, type and naming rules), with browser checks for each section. Partway through, the client asked to edit photos and text themselves. A code site would have left them depending on me for every change, so the site moved to Wix and the Astro build became the reference for the rebuild.',
+      'The rebuild meant working within what the platform allows. Partner inquiries moved to Wix Forms, which caps a free-plan form at ten inputs, so the form was cut down to the fields a sales team actually needs. An automation sends each inquiry to the sales inboxes with the agency’s name in the subject, and replying goes straight to the agency.',
+      'Every change went through a review pass at desktop and phone widths, checking contrast across the whole page, not just the section that changed. Copy came word for word from the client’s blueprint and was checked against their terms and conditions before going live.',
+    ],
+    whatItDoes: [
+      { title: 'Tells agencies what Sakka sells', desc: 'Seasonal focus, B2B products and sample itineraries, set out in the order a buyer evaluates a ground partner.' },
+      { title: 'Takes partner inquiries', desc: 'A short form that reaches the right inboxes, so a reply goes straight back to the agency.' },
+      { title: 'Lets the client edit it', desc: 'Photos and text are changed in Wix by the client’s team, without a developer.' },
+      { title: 'Has room to grow', desc: 'Hidden template pages for destinations, curated experiences and managed properties, ready for the client’s content.' },
+    ],
+    underTheHood: [
+      { title: 'Prototype first, then rebuild', desc: 'The Astro build fixed the design and copy before the platform changed, so the Wix version had an exact reference.' },
+      { title: 'Brand rules as tokens', desc: 'The guideline colours and type became shared tokens, and the naming rules from the guidelines were applied to every piece of copy.' },
+      { title: 'Contrast checked page-wide', desc: 'Low-contrast brand gold on cream was swapped for a darker shade of the same gold that passes WCAG.' },
+      { title: 'Forms within plan limits', desc: 'Wix Forms with an email automation, sized to the free plan’s ten-input cap.' },
+    ],
+    outcome: [
+      'Live, and in use by the client.',
+      'The client’s team can change photos and copy in Wix without a developer.',
+      'Partner inquiries reach the sales inboxes.',
+    ],
+    builtWith: ['Wix', 'Wix Forms', 'Astro', 'TypeScript', 'CSS custom properties'],
+    builtFor: ['Travel & tourism', 'B2B buyers', 'Non-technical editors'],
+  },
+  {
     slug: 'courtside',
     title: 'Courtside',
     category: 'Booking system · Full stack',
     lede: 'A court booking system for Philippine sports venues that only have a Facebook page, built so two people tapping the same slot can never both get it.',
     status: 'in-progress',
+    featured: true,
     shortDesc:
       'Court booking with GCash payment holds and a staff dashboard. Double-booking is ruled out by a unique index in MySQL, not by application checks.',
     previewImage: '/images/work/courtside-grid.jpg',
@@ -312,6 +365,7 @@ export const projects: Project[] = [
     category: 'Client website',
     lede: 'A production website for a pediatric therapy clinic in Mabalacat, Pampanga — live and serving actual families.',
     status: 'client',
+    featured: true,
     accent: '#d8a262',
     shortDesc:
       'Live client website for a pediatric therapy clinic — hand-built CSS design system, mobile-first and accessible, no framework.',
@@ -380,6 +434,9 @@ export const projects: Project[] = [
 /** Everything the site renders — the catalogue, the detail routes, the
  *  sitemap and the ‹ N / M › pager all read off this. */
 export const publishedProjects = projects.filter((p) => !p.draft);
+
+/** The home page's short list. */
+export const featuredProjects = publishedProjects.filter((p) => p.featured);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug && !p.draft);
@@ -483,6 +540,9 @@ export type Certification = {
 };
 
 export const certifications: Certification[] = [
+  { name: 'Make Agentic AI Work for You', issuer: 'IBM SkillsBuild', issuerShort: 'IBM', category: 'AI', date: 'Aug 2026', iso: '2026-08-18', verifyUrl: 'https://www.credly.com/badges/c1880299-bb01-4bac-a165-174760f3669f' },
+  { name: 'Artificial Intelligence Fundamentals', issuer: 'IBM SkillsBuild', issuerShort: 'IBM', category: 'AI', date: 'Aug 2026', iso: '2026-08-18', verifyUrl: 'https://www.credly.com/badges/43b8aae5-fbee-4eac-917c-64f27aa396a9' },
+  { name: 'AI Fluency: Framework & Foundations', issuer: 'Anthropic', issuerShort: 'Anthropic', category: 'AI', date: 'Aug 2026', iso: '2026-08-11', verifyUrl: 'https://verify.skilljar.com/c/awmmuakktiga' },
   { name: 'Backend Development and APIs V8', issuer: 'freeCodeCamp', issuerShort: 'freeCodeCamp', category: 'Backend', date: 'Oct 2025', iso: '2025-10-04', verifyUrl: 'https://www.freecodecamp.org/certification/janncarldungo/back-end-development-and-apis' },
   { name: 'Legacy JS Algorithms & Data Structures V7', issuer: 'freeCodeCamp', issuerShort: 'freeCodeCamp', category: 'Algorithms', date: 'Oct 2025', iso: '2025-10-04', verifyUrl: 'https://www.freecodecamp.org/certification/janncarldungo/javascript-algorithms-and-data-structures' },
   { name: 'Design Thinking for Beginners', issuer: 'Simplilearn', issuerShort: 'Simplilearn', category: 'Product', date: 'Jul 2025', iso: '2025-07-25', verifyUrl: 'https://simpli-web.app.link/e/dz8n50OQZ0b' },
@@ -501,17 +561,29 @@ export type ExperienceEntry = { index: string; title: string; org: string; perio
 export const experience: ExperienceEntry[] = [
   {
     index: '01',
-    title: 'Full-Stack Developer Intern (OJT)',
-    org: 'On-the-Job Training — HR & Workforce Platform',
-    period: 'Jul 2026 – Present',
+    title: 'Freelance Web Developer',
+    org: 'Sakka Travel — Japan inbound travel (B2B)',
+    period: 'Sep 2026 – Present',
     bullets: [
-      "Contributing full-stack across a production Laravel + Inertia + React rewrite of a legacy system — a shared component adopted platform-wide, and trusted to review and merge teammates' pull requests",
-      'Building a core workflow module end-to-end, from schema and backend services to the user-facing interface',
-      'Writing automated tests covering business-logic edge cases and interface regressions',
+      'Engaged as sole developer on a fixed-term contract for a Japan inbound travel company serving overseas travel agencies, reporting directly to the client',
+      'Delivered the company’s B2B website end to end, from an Astro prototype built to the brand guidelines to a Wix build the client’s team can maintain without a developer',
+      'Implemented the partner inquiry workflow with Wix Forms and automated email routing to the sales team',
+      'Developing an internal agent hub on Google Sites, integrated with the team’s existing Google Drive and Sheets workflows',
     ],
   },
   {
     index: '02',
+    title: 'Full-Stack Developer Intern (OJT)',
+    org: 'On-the-Job Training — HR & Workforce Platform',
+    period: 'Jul 2026 – Oct 2026',
+    bullets: [
+      "Worked full-stack on a production Laravel + Inertia + React rewrite of a legacy system — built a shared component adopted platform-wide, and was trusted to review and merge teammates' pull requests",
+      'Built a core workflow module end-to-end, from schema and backend services to the user-facing interface',
+      'Wrote automated tests covering business-logic edge cases and interface regressions',
+    ],
+  },
+  {
+    index: '03',
     title: 'Student Aide — University Library',
     org: 'Holy Angel University',
     period: 'June 2025 – May 2026',
@@ -522,7 +594,7 @@ export const experience: ExperienceEntry[] = [
     ],
   },
   {
-    index: '03',
+    index: '04',
     title: 'Student Aide — HAU Store',
     org: 'Holy Angel University',
     period: 'Dec 2024 – June 2025',
