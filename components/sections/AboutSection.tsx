@@ -48,7 +48,7 @@ export function AboutSection() {
         <div className="about-body">
           <div className="about-bio reveal">
             <p>
-              I am <strong>Jann Carl Dungo</strong>, a software engineer and final-year BSIT student at Holy Angel
+              I am <strong>Jann Carl Dungo</strong>, a software developer and final-year BSIT student at Holy Angel
               University, majoring in Web Development. I design and build web applications end to end, with particular
               attention to data modelling, backend architecture, and accessible user interfaces.
             </p>
@@ -59,7 +59,7 @@ export function AboutSection() {
               data layer to the interface and took part in code review.
             </p>
             <p>
-              I am open to software engineering roles, freelance engagements, and collaborative projects.
+              I am open to software development roles, freelance engagements, and collaborative projects.
             </p>
           </div>
 
