@@ -154,6 +154,25 @@
 }
 .cert-check { color: var(--green); display: inline-flex; flex-shrink: 0; }
 
+/* "See all / Show fewer" under the list. */
+.cert-more {
+  display    : inline-flex;
+  align-items: center;
+  gap        : var(--space-xs);
+  margin-top : var(--space-md);
+  padding    : var(--space-xs) 0;
+  background : none;
+  border     : 0;
+  font       : inherit;
+  font-size  : 0.85rem;
+  color      : var(--text-3);
+  cursor     : pointer;
+  transition : color var(--transition-fast);
+}
+.cert-more:hover,
+.cert-more:focus-visible { color: var(--accent); }
+.cert-more:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 /* ── Responsive ── */
 @media (max-width: 720px) {
   .cert-row-link {
