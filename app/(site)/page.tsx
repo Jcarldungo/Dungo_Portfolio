@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { featuredProjects, siteInfo, techGroups } from '@/lib/content';
-import { ProjectRows } from './project-rows';
+import { siteInfo, techGroups } from '@/lib/content';
+import { ProjectCarousel } from './project-carousel';
 import { GitHubActivity } from './github';
 import { ResumeIcon, ResumeLink } from '@/components/ResumeLink';
 
@@ -13,7 +13,7 @@ export default function Home() {
     <div className="pv-actions"><Link href="/projects">View my work <span>↗</span></Link><Link href="/contact">Let&apos;s connect <span>↗</span></Link></div>
     <div className="pv-availability"><span className="pv-dot" />Open to junior developer roles &amp; freelance work</div>
     <div className="pv-education"><span>BSIT — Web Development</span><span>Holy Angel University</span><span>Dean&apos;s Lister (2023–present)</span></div>
-    <section className="pv-block"><div className="pv-section-heading"><h2>Selected projects</h2><Link href="/projects">View all ↗</Link></div><ProjectRows projects={featuredProjects} /></section>
+    <section className="pv-block"><div className="pv-section-heading"><h2>Selected projects</h2><Link href="/projects">View all ↗</Link></div><ProjectCarousel /></section>
     <section className="pv-block"><div className="pv-section-heading"><h2>Stack</h2><Link href="/stack">View all ↗</Link></div>{techGroups.map(group => <div className="pv-stack-summary" key={group.label}><h3>{group.label}</h3><p>{group.tools.map(t => t.name).join(', ')}</p></div>)}</section>
     <GitHubActivity />
     <div className="pv-closing"><p>Open to junior developer roles, freelance full-stack projects, and academic collaborations.</p><Link href="/contact">Let&apos;s connect ↗</Link></div>
