@@ -1,0 +1,257 @@
+/* Projects fan: a circular deck. The active card sits flat in front; its
+   neighbours tilt and drop behind it. Only transform and opacity animate.
+   Reduced motion is handled by the blanket `.pv *` rule in preview.css. */
+
+.pv-fan {
+  --fan-card-w: min(23rem, 84%);
+  --fan-card-h: 23.5rem;
+  --fan-drop: 1.5rem;
+  --fan-ease: 0.55s var(--ease-spring);
+  margin-top: var(--space-xl);
+}
+
+.pv-fan-stage {
+  position: relative;
+  height: calc(var(--fan-card-h) + var(--fan-drop) + var(--space-lg));
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, currentColor 7%, currentColor 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, currentColor 7%, currentColor 93%, transparent);
+}
+
+.pv-fan-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--fan-card-w);
+  height: var(--fan-card-h);
+  overflow: hidden;
+  border: 1px solid var(--pv-line);
+  border-radius: var(--radius-lg);
+  background: var(--pv-surface);
+  box-shadow: var(--pv-elev-panel);
+  transform-origin: 50% 100%;
+  transition: transform var(--fan-ease), opacity var(--fan-ease);
+  will-change: transform;
+}
+
+/* Wrapping cards reposition without sweeping across the deck. */
+.pv-fan-card[data-wrapped] { transition: none; }
+
+.pv-fan-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--fan-ease);
+}
+.pv-fan-card[data-current]::before { opacity: 1; }
+
+/* Receding cards dim with an overlay so the opacity change stays cheap. */
+.pv-fan-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--pv-bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--fan-ease);
+}
+
+.pv-fan-card[data-pos='0']  { z-index: 5; transform: translateX(-50%); }
+.pv-fan-card[data-pos='-1'] { z-index: 4; transform: translateX(-112%) translateY(0.75rem) rotate(-4deg) scale(0.95); }
+.pv-fan-card[data-pos='1']  { z-index: 4; transform: translateX(12%) translateY(0.75rem) rotate(4deg) scale(0.95); }
+.pv-fan-card[data-pos='-2'] { z-index: 3; transform: translateX(-156%) translateY(var(--fan-drop)) rotate(-8deg) scale(0.9); }
+.pv-fan-card[data-pos='2']  { z-index: 3; transform: translateX(56%) translateY(var(--fan-drop)) rotate(8deg) scale(0.9); }
+.pv-fan-card[data-pos='-3'] { z-index: 1; opacity: 0; transform: translateX(-174%) translateY(var(--fan-drop)) rotate(-10deg) scale(0.86); }
+.pv-fan-card[data-pos='3']  { z-index: 1; opacity: 0; transform: translateX(74%) translateY(var(--fan-drop)) rotate(10deg) scale(0.86); }
+
+.pv-fan-card[data-pos='-1']::after,
+.pv-fan-card[data-pos='1']::after { opacity: 0.8; }
+.pv-fan-card[data-pos='-2']::after,
+.pv-fan-card[data-pos='2']::after { opacity: 0.92; }
+
+.pv-fan-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+}
+
+.pv-fan-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pv-subtle);
+}
+.pv-fan-meta > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pv-fan-status { display: inline-flex; align-items: center; gap: var(--space-sm); white-space: nowrap; }
+.pv-fan-status[data-status='live'] { color: var(--pv-green); }
+.pv-fan-status[data-status='live']::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pv-green);
+}
+
+.pv-fan-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+.pv .pv-fan-head h3 {
+  margin: 0;
+  font-size: var(--fs-600);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.pv-fan-head img {
+  flex-shrink: 0;
+  width: 5.5rem;
+  height: 4rem;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--pv-line);
+  border-radius: var(--radius-sm);
+}
+
+.pv .pv-fan-summary {
+  margin: var(--space-md) 0 0;
+  font-size: var(--pv-fs-secondary);
+  line-height: 1.55;
+  color: var(--pv-body);
+  display: -webkit-box;
+  flex-shrink: 0;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pv .pv-fan-tech {
+  margin: var(--space-md) 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  line-height: 1.6;
+  color: var(--pv-muted);
+}
+
+.pv-fan-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: auto;
+  padding-top: var(--space-md);
+  border-top: 1px dashed var(--pv-line);
+}
+.pv-fan-case {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-shrink: 0;
+  white-space: nowrap;
+  height: 2.5rem;
+  padding: 0 var(--space-md);
+  border: 1px solid var(--pv-raised-ring);
+  border-radius: var(--radius-pill);
+  font-size: var(--pv-fs-ui);
+  font-weight: 500;
+  color: var(--pv-text);
+  transition: background var(--pv-quick), border-color var(--pv-quick);
+}
+.pv-fan-ext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--fs-100);
+  color: var(--pv-muted);
+}
+.pv-fan-case:focus-visible, .pv-fan-ext:focus-visible { outline-offset: 3px; }
+
+/* Click target that stands in for the card while it is inert. */
+.pv-fan-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pv-fan-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+.pv .pv-fan-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 2.75rem;
+  padding: 0 var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pv-muted);
+  cursor: pointer;
+  transition: color var(--pv-quick);
+}
+.pv-fan-pager { display: flex; align-items: center; gap: var(--space-md); }
+.pv-fan-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-200);
+  font-variant-numeric: tabular-nums;
+  color: var(--pv-muted);
+}
+.pv-fan-count strong { font-weight: 500; color: var(--pv-text); }
+.pv-fan-dots { display: flex; align-items: center; }
+.pv .pv-fan-dot {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 2.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+.pv-fan-dot::before {
+  content: '';
+  width: 100%;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--pv-line);
+  transition: background var(--pv-quick);
+}
+.pv-fan-dot[aria-current]::before { background: var(--accent); }
+
+@media (hover: hover) {
+  .pv-fan-case:hover { background: var(--pv-hover); border-color: var(--pv-raised-ring-hover); }
+  .pv-fan-ext:hover, .pv .pv-fan-step:hover { color: var(--pv-text); }
+  .pv-fan-dot:hover::before { background: var(--pv-muted); }
+}
+
+@media (max-width: 768px) {
+  .pv-fan { --fan-card-w: min(23rem, 78%); }
+}
+
+@media (max-width: 430px) {
+  .pv-fan { --fan-card-h: 26rem; --fan-card-w: 80%; }
+  .pv-fan-head img { display: none; }
+  .pv-fan-card[data-pos='-2'], .pv-fan-card[data-pos='2'] { opacity: 0; }
+  .pv-fan-count { display: none; }
+}

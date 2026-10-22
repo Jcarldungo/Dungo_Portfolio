@@ -30,7 +30,7 @@ export default async function ViewPage({ params }: { params: Promise<{ view: str
   const content: Record<string, React.ReactNode> = {
     services: <Services />,
     resources: <Resources />,
-    projects: <><h1 className="pv-page-title">Projects</h1><ProjectRows /></>,
+    projects: <><h1 className="pv-page-title">Projects</h1><p className="pv-intro">Client work, and the things I build for myself.</p><ProjectRows /></>,
     about: <><h1 className="pv-page-title">About me</h1><AboutSection /></>,
     stack: <><h1 className="pv-page-title">Stack</h1><StackSection /></>,
     experience: <><h1 className="pv-page-title">Experience &amp; credentials</h1><ExperienceSection /></>,
